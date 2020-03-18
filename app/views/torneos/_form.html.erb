@@ -1,0 +1,62 @@
+<%= form_with(model: torneo, local: true) do |form| %>
+  <% if torneo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(torneo.errors.count, "error") %> prohibited this torneo from being saved:</h2>
+
+      <ul>
+        <% torneo.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :nombre %>
+    <%= form.text_field :nombre %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Fecha de Inicio" %>
+    <%= form.date_select :fechaInicio %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Fecha de Finalización" %>
+    <%= form.date_select :fechaFin %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Seleccione el tipo de torneo" %>
+    <%= form.select :tipo, options_for_select([['Cuadro de Avance','cuadroAvance'],['Round Robin','roundRobin']]), id: "tipoTorneo" %>
+  </div>
+
+  <div id="modalidad">
+    
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  function insertarFormulario(){
+    if($("#torneo_tipo").val()=="cuadroAvance")
+    {
+      $("#modalidad").empty()
+      $("#modalidad").append(`<label for="cantidad_de_jugadores">Cantidad de Jugadores</label>
+      <input type="text" name="cuadroAvance[numeroJugadores]">`)
+    }
+    else if ($("#torneo_tipo").val()=="roundRobin") 
+    {
+      $("#modalidad").empty()
+      $("#modalidad").append(`<label for="cantidad_de_jugadores_por_grupo">Cantidad de jugadores por grupo</label>
+      <input type="text" name="roundRobin[numeroJugadoresGrupo]">
+      <label for="cantidad_de_grupos">Cantidad de jugadores por grupo</label>
+      <input type="text" name="round[numeroGrupos]">`)
+    }
+  }
+  insertarFormulario()
+  $("#torneo_tipo").change(insertarFormulario)
+</script>

@@ -1,0 +1,2 @@
+class Llave < ApplicationRecord
+end

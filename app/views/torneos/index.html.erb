@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Torneos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Fechainicio</th>
+      <th>Fechafin</th>
+      <th>Tipo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @torneos.each do |torneo| %>
+      <tr>
+        <td><%= torneo.nombre %></td>
+        <td><%= torneo.fechaInicio %></td>
+        <td><%= torneo.fechaFin %></td>
+        <td><%= torneo.tipo %></td>
+        <td><%= link_to 'Show', torneo %></td>
+        <td><%= link_to 'Edit', edit_torneo_path(torneo) %></td>
+        <td><%= link_to 'Destroy', torneo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Torneo', new_torneo_path %>

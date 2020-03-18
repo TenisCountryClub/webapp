@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nombre:</strong>
+  <%= @torneo.nombre %>
+</p>
+
+<p>
+  <strong>Fechainicio:</strong>
+  <%= @torneo.fechaInicio %>
+</p>
+
+<p>
+  <strong>Fechafin:</strong>
+  <%= @torneo.fechaFin %>
+</p>
+
+<p>
+  <strong>Tipo:</strong>
+  <%= @torneo.tipo %>
+</p>
+
+<%= link_to 'Edit', edit_torneo_path(@torneo) %> |
+<%= link_to 'Back', torneos_path %>
