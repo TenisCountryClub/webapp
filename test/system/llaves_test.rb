@@ -16,6 +16,7 @@ class LlavesTest < ApplicationSystemTestCase
 
     fill_in "Etapa", with: @llafe.etapa
     fill_in "Numero", with: @llafe.numero
+    fill_in "Torneo", with: @llafe.torneo_id
     click_on "Create Llave"
 
     assert_text "Llave was successfully created"
@@ -28,6 +29,7 @@ class LlavesTest < ApplicationSystemTestCase
 
     fill_in "Etapa", with: @llafe.etapa
     fill_in "Numero", with: @llafe.numero
+    fill_in "Torneo", with: @llafe.torneo_id
     click_on "Update Llave"
 
     assert_text "Llave was successfully updated"

@@ -12,13 +12,18 @@
   <% end %>
 
   <div class="field">
+    <%= form.label :torneo_id %>
+    <%= form.text_field :torneo_id %>
+  </div>
+
+  <div class="field">
     <%= form.label :numero %>
-    <%= form.text_field :numero %>
+    <%= form.number_field :numero %>
   </div>
 
   <div class="field">
     <%= form.label :numeroJugadores %>
-    <%= form.text_field :numeroJugadores %>
+    <%= form.number_field :numeroJugadores %>
   </div>
 
   <div class="actions">

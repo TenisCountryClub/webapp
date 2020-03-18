@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Torneo</th>
       <th>Numero</th>
       <th>Numerojugadores</th>
       <th colspan="3"></th>
@@ -14,6 +15,7 @@
   <tbody>
     <% @grupos.each do |grupo| %>
       <tr>
+        <td><%= grupo.torneo_id %></td>
         <td><%= grupo.numero %></td>
         <td><%= grupo.numeroJugadores %></td>
         <td><%= link_to 'Show', grupo %></td>

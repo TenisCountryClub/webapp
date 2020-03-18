@@ -69,6 +69,6 @@ class LlavesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def llafe_params
-      params.require(:llafe).permit(:etapa, :numero)
+      params.require(:llafe).permit(:torneo_id, :etapa, :numero)
     end
 end

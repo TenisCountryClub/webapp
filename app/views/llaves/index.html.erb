@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Torneo</th>
       <th>Etapa</th>
       <th>Numero</th>
       <th colspan="3"></th>
@@ -14,6 +15,7 @@
   <tbody>
     <% @llaves.each do |llafe| %>
       <tr>
+        <td><%= llafe.torneo_id %></td>
         <td><%= llafe.etapa %></td>
         <td><%= llafe.numero %></td>
         <td><%= link_to 'Show', llafe %></td>

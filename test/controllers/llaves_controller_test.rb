@@ -17,7 +17,7 @@ class LlavesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create llafe" do
     assert_difference('Llave.count') do
-      post llaves_url, params: { llafe: { etapa: @llafe.etapa, numero: @llafe.numero } }
+      post llaves_url, params: { llafe: { etapa: @llafe.etapa, numero: @llafe.numero, torneo_id: @llafe.torneo_id } }
     end
 
     assert_redirected_to llafe_url(Llave.last)
@@ -34,7 +34,7 @@ class LlavesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update llafe" do
-    patch llafe_url(@llafe), params: { llafe: { etapa: @llafe.etapa, numero: @llafe.numero } }
+    patch llafe_url(@llafe), params: { llafe: { etapa: @llafe.etapa, numero: @llafe.numero, torneo_id: @llafe.torneo_id } }
     assert_redirected_to llafe_url(@llafe)
   end
 

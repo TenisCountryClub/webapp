@@ -17,7 +17,7 @@ class GruposControllerTest < ActionDispatch::IntegrationTest
 
   test "should create grupo" do
     assert_difference('Grupo.count') do
-      post grupos_url, params: { grupo: { numero: @grupo.numero, numeroJugadores: @grupo.numeroJugadores } }
+      post grupos_url, params: { grupo: { numero: @grupo.numero, numeroJugadores: @grupo.numeroJugadores, torneo_id: @grupo.torneo_id } }
     end
 
     assert_redirected_to grupo_url(Grupo.last)
@@ -34,7 +34,7 @@ class GruposControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update grupo" do
-    patch grupo_url(@grupo), params: { grupo: { numero: @grupo.numero, numeroJugadores: @grupo.numeroJugadores } }
+    patch grupo_url(@grupo), params: { grupo: { numero: @grupo.numero, numeroJugadores: @grupo.numeroJugadores, torneo_id: @grupo.torneo_id } }
     assert_redirected_to grupo_url(@grupo)
   end
 

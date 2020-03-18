@@ -16,6 +16,7 @@ class GruposTest < ApplicationSystemTestCase
 
     fill_in "Numero", with: @grupo.numero
     fill_in "Numerojugadores", with: @grupo.numeroJugadores
+    fill_in "Torneo", with: @grupo.torneo_id
     click_on "Create Grupo"
 
     assert_text "Grupo was successfully created"
@@ -28,6 +29,7 @@ class GruposTest < ApplicationSystemTestCase
 
     fill_in "Numero", with: @grupo.numero
     fill_in "Numerojugadores", with: @grupo.numeroJugadores
+    fill_in "Torneo", with: @grupo.torneo_id
     click_on "Update Grupo"
 
     assert_text "Grupo was successfully updated"
