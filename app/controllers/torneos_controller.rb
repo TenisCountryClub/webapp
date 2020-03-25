@@ -1,3 +1,8 @@
+require 'roo'
+require 'roo-xls'
+
+
+
 class TorneosController < ApplicationController
   before_action :set_torneo, only: [:show, :edit, :update, :destroy]
 
@@ -25,6 +30,8 @@ class TorneosController < ApplicationController
   # POST /torneos.json
   def create
     @torneo = Torneo.new(torneo_params)
+
+
 
     respond_to do |format|
       if @torneo.save
@@ -59,6 +66,24 @@ class TorneosController < ApplicationController
       format.html { redirect_to torneos_url, notice: 'Torneo was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def obtener_jugadores
+    file_path = File.join(Rails.root, "app", "controllers", "torneo1.xlsx")
+    @hoja = Roo::Spreadsheet.open(file_path)
+    @torneo= Hash.new 
+    6.times do |i| 
+        @torneo[@hoja.cell(i,1)] = @hoja.cell(i,2)
+    end
+    i=10
+    @jugadores=[]
+    while @hoja.cell(i,1).to_i!=0
+      if @hoja.cell(i,1).to_i!=0
+        @jugadores.append({"Nro"=>@hoja.cell(i,1),"Jugador"=>@hoja.cell(i,2),"Ranking"=>@hoja.cell(i,3),"Edad"=>@hoja.cell(i,4),"Club y Asoc."=>@hoja.cell(i,5)})
+      end
+      i+=1
+    end
+    @j=i
   end
 
   private

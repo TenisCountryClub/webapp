@@ -1,0 +1,12 @@
+<%@torneo.each do |key, value| %>
+  <%=key%> <%=value%> <br>
+<% end %>
+<br>
+<%=@jugadores.length%>
+<%=@j%>
+<%=@hoja.cell(10,1).to_i%><br>
+<% @jugadores.each do |jugador|%>
+	<%jugador.each do |key, value| %>
+  		<%=key%> <%=value%> <br>
+	<% end %>
+<%end%>
