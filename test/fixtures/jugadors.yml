@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  numero: 1
+  nombre: MyString
+  ranking: 1
+  edad: 1
+  club_asociacion: MyString
+  fecha_inscripcion: 2020-03-28 17:39:33
+  status: MyString
+
+two:
+  numero: 1
+  nombre: MyString
+  ranking: 1
+  edad: 1
+  club_asociacion: MyString
+  fecha_inscripcion: 2020-03-28 17:39:33
+  status: MyString

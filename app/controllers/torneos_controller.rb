@@ -1,8 +1,3 @@
-require 'roo'
-require 'roo-xls'
-
-
-
 class TorneosController < ApplicationController
   before_action :set_torneo, only: [:show, :edit, :update, :destroy]
 
@@ -68,18 +63,25 @@ class TorneosController < ApplicationController
     end
   end
 
+  def obtener_hoja_calculo
+    
+  end
+
+  #Post obtener Jugadores
   def obtener_jugadores
-    file_path = File.join(Rails.root, "app", "controllers", "torneo1.xlsx")
+    file_path = File.join(Rails.root, "app", "assets","torneos", "torneo2.xlsx")
     @hoja = Roo::Spreadsheet.open(file_path)
-    @torneo= Hash.new 
-    6.times do |i| 
-        @torneo[@hoja.cell(i,1)] = @hoja.cell(i,2)
-    end
     i=10
-    @jugadores=[]
-    while @hoja.cell(i,1).to_i!=0
-      if @hoja.cell(i,1).to_i!=0
-        @jugadores.append({"Nro"=>@hoja.cell(i,1),"Jugador"=>@hoja.cell(i,2),"Ranking"=>@hoja.cell(i,3),"Edad"=>@hoja.cell(i,4),"Club y Asoc."=>@hoja.cell(i,5)})
+    while @hoja.cell(i,1).to_i!=0 or @hoja.cell(i+4,1).to_i!=0
+      if @hoja.cell(i,1).to_i!=0 and @hoja.cell(i,2)!=nil
+        @jugador=Jugador.new
+        @jugador.numero=@hoja.cell(i,1)
+        @jugador.nombre=@hoja.cell(i,2)
+        @jugador.ranking=@hoja.cell(i,3)
+        @jugador.edad=@hoja.cell(i,4)
+        @jugador.club_asociacion=@hoja.cell(i,5)
+        @jugador.fecha_inscripcion=@hoja.cell(i,6)
+        @jugador.status=@hoja.cell(i,7)  
       end
       i+=1
     end
