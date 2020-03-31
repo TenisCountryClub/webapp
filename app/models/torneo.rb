@@ -1,8 +1,12 @@
 class Torneo < ApplicationRecord
+	require 'roo'
+	#require 'roo-xls'
+
 	has_many :llaves
 	has_many :grupos
 	has_one_attached :hoja_calculo
 
+	
 	after_save :crear_grupos_llaves
 
 	validates :nombre, :fechaInicio, :fechaFin,:tipo, presence: true
@@ -11,7 +15,35 @@ class Torneo < ApplicationRecord
 	validate :fechaInicio_no_pasada, :fechaFin_despues_inicio
 	validates :numero_llaves, numericality: {only_integer: true},if: :es_cuadroAvance?
 	validates :numero_grupos,:numero_jugadores_grupo,  numericality: {only_integer: true}, if: :es_roundRobin?
-	validate :es_potencia_de_dos?
+	validate :es_potencia_de_dos
+	validate :es_xlsx
+
+
+	def crear_jugadores
+	      @hoja = Roo::Spreadsheet.open(url_for(self.hoja_calculo))
+	      i=10
+
+	      while @hoja.cell(i,1).to_i!=0 or @hoja.cell(i+4,1).to_i!=0
+	        if @hoja.cell(i,1).to_i!=0 and @hoja.cell(i,2)!=nil
+	          @jugador=Jugador.new
+	          @jugador.numero=@hoja.cell(i,1)
+	          @jugador.nombre=@hoja.cell(i,2)
+	          @jugador.ranking=@hoja.cell(i,3)
+	          @jugador.edad=@hoja.cell(i,4)
+	          @jugador.club_asociacion=@hoja.cell(i,5)
+	          @jugador.fecha_inscripcion=@hoja.cell(i,6)
+	          @jugador.status=@hoja.cell(i,7)
+	          @jugador.save  
+	        end
+	        i+=1
+	      end
+	end
+
+	def es_xlsx
+		if File.extname(hoja_calculo.filename.to_s)!=".xlsx"
+			errors.add(:hoja_calculo, "debe ser de formato xlsx")
+		end
+	end
 
 	def fechaInicio_no_pasada
 		if fechaInicio<Date.today
@@ -32,7 +64,7 @@ class Torneo < ApplicationRecord
 		tipo=="cuadroAvance"
 	end
 
-	def es_potencia_de_dos?
+	def es_potencia_de_dos
 		if numero_llaves!=nil
 			x=numero_llaves
 	    	if (x != 0) && ((x & (x - 1)) == 0)

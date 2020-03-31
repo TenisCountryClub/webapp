@@ -43,7 +43,7 @@ class TorneosController < ApplicationController
       end
     end
 
-    if @torneo.hoja_calculo.attached?
+    if @torneo.hoja_calculo.attached? and File.extname(@torneo.hoja_calculo.filename.to_s)==".xlsx"
       @hoja = Roo::Spreadsheet.open(url_for(@torneo.hoja_calculo))
       i=10
 
