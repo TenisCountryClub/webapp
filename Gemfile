@@ -26,7 +26,11 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 gem "roo", "~> 2.8.0"
-gem 'roo-xls'
+#gem 'roo-xls'
+
+
+
+gem 'jquery-validation-rails'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

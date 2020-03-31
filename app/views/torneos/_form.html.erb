@@ -31,10 +31,26 @@
     <%= form.select :tipo, options_for_select([['Cuadro de Avance','cuadroAvance'],['Round Robin','roundRobin']]), id: "tipoTorneo" %>
   </div>
 
-  <div id="modalidad">
-    
+  <!-- hoja calculo -->
+  <div class="field">
+    <%= form.label :hoja_calculo %>
+    <%= form.file_field :hoja_calculo %>
   </div>
 
+  <div class="field form-cuadro-avance">
+    <%= form.label :numero_jugadores %>
+    <%= form.number_field :numero_llaves %>
+  </div>
+
+  <div class="field form-round-robin">
+    <%= form.label :numero_grupos %>
+    <%= form.number_field :numero_grupos %>
+  </div>
+
+  <div class="field form-round-robin">
+    <%= form.label :numero_jugadores_grupo %>
+    <%= form.number_field :numero_jugadores_grupo %>
+  </div>
   <div class="actions">
     <%= form.submit %>
   </div>
@@ -57,6 +73,18 @@
       <input type="text" name="round[numeroGrupos]">`)
     }
   }
-  insertarFormulario()
-  $("#torneo_tipo").change(insertarFormulario)
+  /*insertarFormulario()
+  $("#torneo_tipo").change(insertarFormulario)*/
+  function insertarFormulario2(){
+    if ($("#torneo_tipo").val()=="cuadroAvance") {
+      $(".form-round-robin").css("display","none")
+      $(".form-cuadro-avance").css("display","block")
+    }
+    else if ($("#torneo_tipo").val()=="roundRobin"){
+      $(".form-cuadro-avance").css("display","none")
+      $(".form-round-robin").css("display","block")
+    }
+  }
+  insertarFormulario2()
+  $("#torneo_tipo").change(insertarFormulario2)
 </script>

@@ -1,7 +1,3 @@
-require 'roo'
-require 'roo-xls'
-
-
 class JugadorsController < ApplicationController
   before_action :set_jugador, only: [:show, :edit, :update, :destroy]
 
