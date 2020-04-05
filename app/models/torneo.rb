@@ -16,7 +16,7 @@ class Torneo < ApplicationRecord
 	validates :numero_llaves, numericality: {only_integer: true},if: :es_cuadroAvance?
 	validates :numero_grupos,:numero_jugadores_grupo,  numericality: {only_integer: true}, if: :es_roundRobin?
 	validate :es_potencia_de_dos
-	validate :es_xlsx
+	validate :es_xlsx, :presencia_adjunto
 
 
 	def crear_jugadores
@@ -39,8 +39,14 @@ class Torneo < ApplicationRecord
 	      end
 	end
 
+	def presencia_adjunto
+		if !hoja_calculo.attached?
+			errors.add(:hoja_calculo, "debe estar adjunto")
+		end
+	end
+
 	def es_xlsx
-		if File.extname(hoja_calculo.filename.to_s)!=".xlsx"
+		if hoja_calculo.attached? and File.extname(hoja_calculo.filename.to_s)!=".xlsx"
 			errors.add(:hoja_calculo, "debe ser de formato xlsx")
 		end
 	end
@@ -70,6 +76,9 @@ class Torneo < ApplicationRecord
 	    	if (x != 0) && ((x & (x - 1)) == 0)
 	    	else
 	    		errors.add(:numero_llaves, "debe ser potencia de dos")
+	    	end
+	    	if numero_llaves<2
+	    		errors.add(:numero_llaves, "debe mayor o igual a dos")
 	    	end
 	    end
 	end
