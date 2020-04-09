@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+	Rails.application.routes.default_url_options[:host] = "localhost:3000"
   
   resources :jugadors
   resources :torneos

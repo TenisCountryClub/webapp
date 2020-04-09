@@ -1,13 +1,20 @@
 class Torneo < ApplicationRecord
+	include Rails.application.routes.url_helpers
+
 	require 'roo'
 	#require 'roo-xls'
 
+	extend ActionView::Helpers::UrlHelper
+
 	has_many :llaves
 	has_many :grupos
+
+	after_create_commit :crear_jugadores
 	has_one_attached :hoja_calculo
 
 	
 	after_save :crear_grupos_llaves
+	
 
 	validates :nombre, :fechaInicio, :fechaFin,:tipo, presence: true
 	validates :numero_grupos,:numero_jugadores_grupo, presence: true, if: :es_roundRobin?
@@ -20,19 +27,20 @@ class Torneo < ApplicationRecord
 
 
 	def crear_jugadores
-	      @hoja = Roo::Spreadsheet.open(url_for(self.hoja_calculo))
+		  puts rails_blob_path(self.hoja_calculo)			
+	      hoja = Roo::Spreadsheet.open(url_for(self.hoja_calculo))
 	      i=10
 
-	      while @hoja.cell(i,1).to_i!=0 or @hoja.cell(i+4,1).to_i!=0
-	        if @hoja.cell(i,1).to_i!=0 and @hoja.cell(i,2)!=nil
+	      while hoja.cell(i,1).to_i!=0 or hoja.cell(i+4,1).to_i!=0
+	        if hoja.cell(i,1).to_i!=0 and hoja.cell(i,2)!=nil
 	          @jugador=Jugador.new
-	          @jugador.numero=@hoja.cell(i,1)
-	          @jugador.nombre=@hoja.cell(i,2)
-	          @jugador.ranking=@hoja.cell(i,3)
-	          @jugador.edad=@hoja.cell(i,4)
-	          @jugador.club_asociacion=@hoja.cell(i,5)
-	          @jugador.fecha_inscripcion=@hoja.cell(i,6)
-	          @jugador.status=@hoja.cell(i,7)
+	          @jugador.numero=hoja.cell(i,1)
+	          @jugador.nombre=hoja.cell(i,2)
+	          @jugador.ranking=hoja.cell(i,3)
+	          @jugador.edad=hoja.cell(i,4)
+	          @jugador.club_asociacion=hoja.cell(i,5)
+	          @jugador.fecha_inscripcion=hoja.cell(i,6)
+	          @jugador.status=hoja.cell(i,7)
 	          @jugador.save  
 	        end
 	        i+=1

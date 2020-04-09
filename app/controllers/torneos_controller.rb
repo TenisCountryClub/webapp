@@ -42,26 +42,6 @@ class TorneosController < ApplicationController
         format.json { render json: @torneo.errors, status: :unprocessable_entity }
       end
     end
-
-    if @torneo.hoja_calculo.attached? and File.extname(@torneo.hoja_calculo.filename.to_s)==".xlsx"
-      @hoja = Roo::Spreadsheet.open(url_for(@torneo.hoja_calculo))
-      i=10
-
-      while @hoja.cell(i,1).to_i!=0 or @hoja.cell(i+4,1).to_i!=0
-        if @hoja.cell(i,1).to_i!=0 and @hoja.cell(i,2)!=nil
-          @jugador=Jugador.new
-          @jugador.numero=@hoja.cell(i,1)
-          @jugador.nombre=@hoja.cell(i,2)
-          @jugador.ranking=@hoja.cell(i,3)
-          @jugador.edad=@hoja.cell(i,4)
-          @jugador.club_asociacion=@hoja.cell(i,5)
-          @jugador.fecha_inscripcion=@hoja.cell(i,6)
-          @jugador.status=@hoja.cell(i,7)
-          @jugador.save  
-        end
-        i+=1
-      end
-    end
   end
 
   # PATCH/PUT /torneos/1
