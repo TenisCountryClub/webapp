@@ -1,6 +1,9 @@
 class Cuadro < ApplicationRecord
   belongs_to :categorium
 
+  validates :numero, :etapa, :categorium_id, presence: true
+  validates :numero,  numericality: {only_integer: true}
+
    def set_etapa(valor)
   	 write_attribute(:etapa, valor)
   	puts "hola2"

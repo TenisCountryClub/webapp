@@ -18,12 +18,12 @@
 
   <div class="field">
     <%= form.label :fecha_inicio %>
-    <%= form.date_select :fecha_inicio %>
+    <%= form.date_select :fecha_inicio, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']} %>
   </div>
 
   <div class="field">
     <%= form.label :fecha_fin %>
-    <%= form.date_select :fecha_fin %>
+    <%= form.date_select :fecha_fin, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']} %>
   </div>
 
   <div class="field">

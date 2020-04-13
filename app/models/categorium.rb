@@ -4,16 +4,36 @@ class Categorium < ApplicationRecord
 	has_many :grupos
 	has_many :jugadors
   belongs_to :torneo
+  before_save :set_numero_jugadores
   after_commit :crear_grupos_cuadros
 
+  	validates :nombre, presence: true
 	validates :numero_grupos,:numero_jugadores_grupo, presence: true, if: :es_roundRobin?
 	validates :numero_jugadores, presence: true, if: :es_cuadroAvance?
 	validates :numero_jugadores, numericality: {only_integer: true},if: :es_cuadroAvance?
 	validates :numero_grupos,:numero_jugadores_grupo,  numericality: {only_integer: true}, if: :es_roundRobin?
 	validate :es_potencia_de_dos
+	validate :cuadra_grupos_cuadros
+
+	def cuadra_grupos_cuadros
+		if numero_grupos
+			x=numero_grupos*2
+			if (x != 0) && ((x & (x - 1)) == 0)
+			else
+				errors.add(:numero_grupos, "debe ser potencia de dos")
+			end
+		end
+	end
+
+	def set_numero_jugadores
+		if es_roundRobin?
+			self.numero_jugadores= self.numero_grupos*self.numero_jugadores_grupo
+		end
+	end
+
 
 	def es_potencia_de_dos
-		if numero_jugadores!=nil
+		if tipo== "cuadroAvance" and numero_jugadores
 			x=numero_jugadores
 	    	if (x != 0) && ((x & (x - 1)) == 0)
 	    	else
@@ -27,6 +47,8 @@ class Categorium < ApplicationRecord
   def crear_grupos_cuadros
 		puts "hola"
 		if self.tipo=="cuadroAvance"
+			self.cuadros.destroy_all
+			self.grupos.destroy_all
 			aux=self.numero_jugadores/2
 			while aux>=1
 				i=1
@@ -57,6 +79,8 @@ class Categorium < ApplicationRecord
 				aux/=2
 			end
 		elsif self.tipo=="roundRobin"
+			self.grupos.destroy_all
+			self.cuadros.destroy_all
 			i=1
 			nombre="Grupo A"
 			while i<=self.numero_grupos

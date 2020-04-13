@@ -16,6 +16,7 @@ class Torneo < ApplicationRecord
 	
 
 	validates :nombre, :fecha_inicio, :fecha_fin, presence: true
+	validates :nombre, uniqueness: true
 	validate :fechaInicio_no_pasada, :fechaFin_despues_inicio
 	validate :es_xlsx, :presencia_adjunto
 

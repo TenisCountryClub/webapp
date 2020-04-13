@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
   end
   
-  Rails.application.routes.default_url_options[:host] = "localhost:3000"
+  Rails.application.routes.default_url_options[:host] = "https://tenis-country-club-cbba.herokuapp.com/"
 
 
   

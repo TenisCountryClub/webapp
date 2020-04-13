@@ -1,6 +1,10 @@
 class Grupo < ApplicationRecord
   belongs_to :categorium
 
+  validates :numero, :nombre, :categorium_id, presence: true
+  validates :numero,  numericality: {only_integer: true}
+
+
   def set_numero(valor)
 	 write_attribute(:numero, valor)
 	 puts "hola2"
