@@ -1,10 +1,12 @@
 class GruposController < ApplicationController
+
+  before_action :get_torneo, :get_categorium
   before_action :set_grupo, only: [:show, :edit, :update, :destroy]
 
   # GET /grupos
   # GET /grupos.json
   def index
-    @grupos = Grupo.all
+    @grupos = @categorium.grupos
   end
 
   # GET /grupos/1
@@ -24,11 +26,11 @@ class GruposController < ApplicationController
   # POST /grupos
   # POST /grupos.json
   def create
-    @grupo = Grupo.new(grupo_params)
+    @grupo = @categorium.grupos.build(grupo_params)
 
     respond_to do |format|
       if @grupo.save
-        format.html { redirect_to @grupo, notice: 'Grupo was successfully created.' }
+        format.html { redirect_to [@torneo,@categorium,@grupo], notice: 'Grupo was successfully created.' }
         format.json { render :show, status: :created, location: @grupo }
       else
         format.html { render :new }
@@ -42,7 +44,7 @@ class GruposController < ApplicationController
   def update
     respond_to do |format|
       if @grupo.update(grupo_params)
-        format.html { redirect_to @grupo, notice: 'Grupo was successfully updated.' }
+        format.html { redirect_to [@torneo,@categorium,@grupo], notice: 'Grupo was successfully updated.' }
         format.json { render :show, status: :ok, location: @grupo }
       else
         format.html { render :edit }
@@ -56,12 +58,20 @@ class GruposController < ApplicationController
   def destroy
     @grupo.destroy
     respond_to do |format|
-      format.html { redirect_to grupos_url, notice: 'Grupo was successfully destroyed.' }
+      format.html { redirect_to torneo_categorium_grupos_url(@torneo,@categorium), notice: 'Grupo was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
+    def get_torneo
+      @torneo=Torneo.find(params[:torneo_id])
+    end
+
+    def get_categorium
+      @categorium=@torneo.categoria.find(params[:categorium_id])
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_grupo
       @grupo = Grupo.find(params[:id])
@@ -69,6 +79,6 @@ class GruposController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def grupo_params
-      params.require(:grupo).permit(:torneo_id, :numero, :numeroJugadores)
+      params.require(:grupo).permit(:numero, :nombre, :categoria_id)
     end
 end

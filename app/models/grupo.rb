@@ -1,21 +1,24 @@
 class Grupo < ApplicationRecord
-  belongs_to :torneo
-  attr_accessor :numero, :numeroJugadores
+  belongs_to :categorium
 
   def set_numero(valor)
-  	 write_attribute(:numero, valor)
-  	 puts "hola2"
-  	end
+	 write_attribute(:numero, valor)
+	 puts "hola2"
+	end
 
-  	def set_numeroJugadores(valor)
-  		write_attribute(:numeroJugadores, valor)
-  	end
+	def set_nombre(valor)
+		write_attribute(:nombre, valor)
+	end
 
-  	def numeroJugadores
-  		self[:numeroJugadores]
-  	end
+	def set_categorium(categoria)
+		write_attribute(:categorium, categoria)
+	end
 
-  	def numero
-  		self[:numero]
-  	end
+	def nombre
+		self[:nombre]
+	end
+
+	def numero
+		self[:numero]
+	end
 end

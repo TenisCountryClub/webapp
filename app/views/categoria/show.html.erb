@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nombre:</strong>
+  <%= @categorium.nombre %>
+</p>
+
+<p>
+  <strong>Numero jugadores:</strong>
+  <%= @categorium.numero_jugadores %>
+</p>
+
+<p>
+  <strong>Numero grupos:</strong>
+  <%= @categorium.numero_grupos %>
+</p>
+
+<p>
+  <strong>Numero jugadores grupo:</strong>
+  <%= @categorium.numero_jugadores_grupo %>
+</p>
+
+<p>
+  <strong>Tipo:</strong>
+  <%= @categorium.tipo %>
+</p>
+
+<p>
+  <strong>Torneo:</strong>
+  <%= @categorium.torneo_id %>
+</p>
+
+<%= link_to 'Edit', edit_torneo_categorium_path(@torneo, @categorium) %> |
+<%= link_to 'Back', torneo_categoria_path(@torneo) %>

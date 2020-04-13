@@ -1,10 +1,26 @@
 class JugadorsController < ApplicationController
-  before_action :set_jugador, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token, except: [:create, :update, :destroy]
+
+  before_action :set_jugador, only: [:show, :edit, :update, :destroy, :asociar_jugador]
+
+  def asociar_jugador
+    @jugador.categorium_id=jugador_categoria_params[:categorium_id]
+    puts "CATID"+jugador_categoria_params.to_s
+    puts "CATEGORIUM"+@jugador.categorium_id.to_s
+    if @jugador.save
+    redirect_to jugadors_url
+    end    
+  end
 
   # GET /jugadors
   # GET /jugadors.json
   def index
-    @jugadors = Jugador.all
+    @jugadors = Jugador.order(:id)
+    @categorias=Array.new
+    categ=Categorium.all
+    categ.each do |categorium|
+      @categorias.push({"Nombre"=>categorium.torneo.nombre+" - "+categorium.nombre, "id" =>categorium.id})
+    end
   end
 
   # GET /jugadors/1
@@ -70,5 +86,9 @@ class JugadorsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def jugador_params
       params.require(:jugador).permit(:numero, :nombre, :ranking, :edad, :club_asociacion, :fecha_inscripcion, :status)
+    end
+
+    def jugador_categoria_params
+      params.require(:jugador).permit(:categorium_id)
     end
 end

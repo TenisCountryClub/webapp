@@ -1,8 +1,7 @@
-class Llave < ApplicationRecord
-  attr_accessor :etapa, :numero
-  belongs_to :torneo
+class Cuadro < ApplicationRecord
+  belongs_to :categorium
 
-  def set_etapa(valor)
+   def set_etapa(valor)
   	 write_attribute(:etapa, valor)
   	puts "hola2"
   end

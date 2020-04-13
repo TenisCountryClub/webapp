@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Numero:</strong>
+  <%= @cuadro.numero %>
+</p>
+
+<p>
+  <strong>Etapa:</strong>
+  <%= @cuadro.etapa %>
+</p>
+
+<p>
+  <strong>Categorium:</strong>
+  <%= @cuadro.categorium_id %>
+</p>
+
+<%= link_to 'Edit', edit_torneo_categorium_cuadro_path(@torneo,@categorium,@cuadro) %> |
+<%= link_to 'Back', torneo_categorium_cuadros_path(@torneo,@categorium) %>

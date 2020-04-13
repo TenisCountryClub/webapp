@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class LlaveTest < ActiveSupport::TestCase
+class CategoriumTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

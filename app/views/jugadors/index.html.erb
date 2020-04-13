@@ -12,6 +12,7 @@
       <th>Club asociacion</th>
       <th>Fecha inscripcion</th>
       <th>Status</th>
+      <th>Categoría</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -26,6 +27,23 @@
         <td><%= jugador.club_asociacion %></td>
         <td><%= jugador.fecha_inscripcion %></td>
         <td><%= jugador.status %></td>
+        <td>
+          <% if jugador.categorium %>
+           <%=jugador.categorium.torneo.nombre+" "+jugador.categorium.nombre %> 
+          <% end %>
+          
+            
+          </td>
+        <td> 
+          <form action="/asociar_jugador/<%= jugador.id %>" method="post">
+          <select name="jugador[categorium_id]">
+          <% @categorias.each do |categorium|%>
+            <option value="<%=categorium["id"]%>"><%=categorium["Nombre"]%></option>
+          <% end %>
+          </select>
+        </td>
+        <td><input type="submit"  value="Asociar Jugador a Torneo"></td>
+        </form>
         <td><%= link_to 'Show', jugador %></td>
         <td><%= link_to 'Edit', edit_jugador_path(jugador) %></td>
         <td><%= link_to 'Destroy', jugador, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -37,3 +55,4 @@
 <br>
 
 <%= link_to 'New Jugador', new_jugador_path %>
+

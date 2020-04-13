@@ -1,10 +1,5 @@
-require 'roo'
-#require 'roo-xls'
-
 class TorneosController < ApplicationController
   before_action :set_torneo, only: [:show, :edit, :update, :destroy]
-
-   skip_before_action :verify_authenticity_token 
 
   # GET /torneos
   # GET /torneos.json
@@ -30,8 +25,6 @@ class TorneosController < ApplicationController
   # POST /torneos.json
   def create
     @torneo = Torneo.new(torneo_params)
-
-
 
     respond_to do |format|
       if @torneo.save
@@ -68,32 +61,6 @@ class TorneosController < ApplicationController
     end
   end
 
-  def obtener_hoja_calculo
-    
-  end
-
-  #Post obtener Jugadores
-  def obtener_jugadores
-    file_path = File.join(Rails.root, "app", "assets","torneos", "torneo2.xlsx")
-    @hoja = Roo::Spreadsheet.open(file_path)
-    i=10
-    while @hoja.cell(i,1).to_i!=0 or @hoja.cell(i+4,1).to_i!=0
-      if @hoja.cell(i,1).to_i!=0 and @hoja.cell(i,2)!=nil
-        @jugador=Jugador.new
-        @jugador.numero=@hoja.cell(i,1)
-        @jugador.nombre=@hoja.cell(i,2)
-        @jugador.ranking=@hoja.cell(i,3)
-        @jugador.edad=@hoja.cell(i,4)
-        @jugador.club_asociacion=@hoja.cell(i,5)
-        @jugador.fecha_inscripcion=@hoja.cell(i,6)
-        @jugador.status=@hoja.cell(i,7)
-        @jugador.save  
-      end
-      i+=1
-    end
-    redirect_to @jugador
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_torneo
@@ -102,6 +69,6 @@ class TorneosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def torneo_params
-      params.require(:torneo).permit(:nombre, :fechaInicio, :fechaFin, :tipo, :numero_llaves, :numero_grupos, :numero_jugadores_grupo, :hoja_calculo)
+      params.require(:torneo).permit(:nombre, :fecha_inicio, :fecha_fin, :hoja_calculo)
     end
 end

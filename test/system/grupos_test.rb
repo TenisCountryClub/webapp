@@ -14,9 +14,9 @@ class GruposTest < ApplicationSystemTestCase
     visit grupos_url
     click_on "New Grupo"
 
+    fill_in "Categoria", with: @grupo.categoria_id
+    fill_in "Nombre", with: @grupo.nombre
     fill_in "Numero", with: @grupo.numero
-    fill_in "Numerojugadores", with: @grupo.numeroJugadores
-    fill_in "Torneo", with: @grupo.torneo_id
     click_on "Create Grupo"
 
     assert_text "Grupo was successfully created"
@@ -27,9 +27,9 @@ class GruposTest < ApplicationSystemTestCase
     visit grupos_url
     click_on "Edit", match: :first
 
+    fill_in "Categoria", with: @grupo.categoria_id
+    fill_in "Nombre", with: @grupo.nombre
     fill_in "Numero", with: @grupo.numero
-    fill_in "Numerojugadores", with: @grupo.numeroJugadores
-    fill_in "Torneo", with: @grupo.torneo_id
     click_on "Update Grupo"
 
     assert_text "Grupo was successfully updated"

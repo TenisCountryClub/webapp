@@ -5,9 +5,9 @@
 <table>
   <thead>
     <tr>
-      <th>Torneo</th>
       <th>Numero</th>
-      <th>Numerojugadores</th>
+      <th>Nombre</th>
+      <th>Categoria</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,12 +15,12 @@
   <tbody>
     <% @grupos.each do |grupo| %>
       <tr>
-        <td><%= grupo.torneo_id %></td>
         <td><%= grupo.numero %></td>
-        <td><%= grupo.numeroJugadores %></td>
-        <td><%= link_to 'Show', grupo %></td>
-        <td><%= link_to 'Edit', edit_grupo_path(grupo) %></td>
-        <td><%= link_to 'Destroy', grupo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= grupo.nombre %></td>
+        <td><%= grupo.categorium_id %></td>
+        <td><%= link_to 'Show', [@torneo,@categorium,grupo] %></td>
+        <td><%= link_to 'Edit', edit_torneo_categorium_grupo_path(@torneo,@categorium,grupo) %></td>
+        <td><%= link_to 'Destroy', [@torneo,@categorium,grupo], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Grupo', new_grupo_path %>
+<%= link_to 'New Grupo', new_torneo_categorium_grupo_path %>

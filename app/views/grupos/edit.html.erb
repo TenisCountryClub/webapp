@@ -2,5 +2,5 @@
 
 <%= render 'form', grupo: @grupo %>
 
-<%= link_to 'Show', @grupo %> |
-<%= link_to 'Back', grupos_path %>
+<%= link_to 'Show', [@torneo, @categorium, @grupo] %> |
+<%= link_to 'Back', torneo_categorium_grupos_path(@torneo,@categorium) %>

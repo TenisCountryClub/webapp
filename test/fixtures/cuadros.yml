@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  torneo: one
-  etapa: MyString
   numero: 1
+  etapa: MyString
+  categorium: one
 
 two:
-  torneo: two
-  etapa: MyString
   numero: 1
+  etapa: MyString
+  categorium: two

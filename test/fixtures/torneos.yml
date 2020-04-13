@@ -2,12 +2,10 @@
 
 one:
   nombre: MyString
-  fechaInicio: 2020-03-17
-  fechaFin: 2020-03-17
-  tipo: MyString
+  fecha_inicio: 2020-04-11
+  fecha_fin: 2020-04-11
 
 two:
   nombre: MyString
-  fechaInicio: 2020-03-17
-  fechaFin: 2020-03-17
-  tipo: MyString
+  fecha_inicio: 2020-04-11
+  fecha_fin: 2020-04-11

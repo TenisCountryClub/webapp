@@ -1,0 +1,27 @@
+<%= form_with(model: [@torneo,@categorium,cuadro], local: true) do |form| %>
+  <% if cuadro.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cuadro.errors.count, "error") %> prohibited this cuadro from being saved:</h2>
+
+      <ul>
+        <% cuadro.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :numero %>
+    <%= form.number_field :numero %>
+  </div>
+
+  <div class="field">
+    <%= form.label :etapa %>
+    <%= form.text_field :etapa %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Cuadros</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Numero</th>
+      <th>Etapa</th>
+      <th>Categorium</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cuadros.each do |cuadro| %>
+      <tr>
+        <td><%= cuadro.numero %></td>
+        <td><%= cuadro.etapa %></td>
+        <td><%= cuadro.categorium_id %></td>
+        <td><%= link_to 'Show', [@torneo,@categorium,cuadro] %></td>
+        <td><%= link_to 'Edit', edit_torneo_categorium_cuadro_path(@torneo,@categorium,cuadro) %></td>
+        <td><%= link_to 'Destroy', [@torneo,@categorium,cuadro], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cuadro', new_torneo_categorium_cuadro_path %>

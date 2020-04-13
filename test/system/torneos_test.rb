@@ -14,10 +14,9 @@ class TorneosTest < ApplicationSystemTestCase
     visit torneos_url
     click_on "New Torneo"
 
-    fill_in "Fechafin", with: @torneo.fechaFin
-    fill_in "Fechainicio", with: @torneo.fechaInicio
+    fill_in "Fecha fin", with: @torneo.fecha_fin
+    fill_in "Fecha inicio", with: @torneo.fecha_inicio
     fill_in "Nombre", with: @torneo.nombre
-    fill_in "Tipo", with: @torneo.tipo
     click_on "Create Torneo"
 
     assert_text "Torneo was successfully created"
@@ -28,10 +27,9 @@ class TorneosTest < ApplicationSystemTestCase
     visit torneos_url
     click_on "Edit", match: :first
 
-    fill_in "Fechafin", with: @torneo.fechaFin
-    fill_in "Fechainicio", with: @torneo.fechaInicio
+    fill_in "Fecha fin", with: @torneo.fecha_fin
+    fill_in "Fecha inicio", with: @torneo.fecha_inicio
     fill_in "Nombre", with: @torneo.nombre
-    fill_in "Tipo", with: @torneo.tipo
     click_on "Update Torneo"
 
     assert_text "Torneo was successfully updated"

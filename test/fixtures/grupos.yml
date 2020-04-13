@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  torneo: one
   numero: 1
-  numeroJugadores: 1
+  nombre: MyString
+  categoria: one
 
 two:
-  torneo: two
   numero: 1
-  numeroJugadores: 1
+  nombre: MyString
+  categoria: two

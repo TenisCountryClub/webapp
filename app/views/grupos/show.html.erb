@@ -1,19 +1,19 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Torneo:</strong>
-  <%= @grupo.torneo_id %>
-</p>
-
-<p>
   <strong>Numero:</strong>
   <%= @grupo.numero %>
 </p>
 
 <p>
-  <strong>Numerojugadores:</strong>
-  <%= @grupo.numeroJugadores %>
+  <strong>Nombre:</strong>
+  <%= @grupo.nombre %>
 </p>
 
-<%= link_to 'Edit', edit_grupo_path(@grupo) %> |
-<%= link_to 'Back', grupos_path %>
+<p>
+  <strong>Categoria:</strong>
+  <%= @grupo.categorium_id %>
+</p>
+
+<%= link_to 'Edit', edit_torneo_categorium_grupo_path(@torneo,@categorium,@grupo) %> |
+<%= link_to 'Back', torneo_categorium_grupos_path(@torneo,@categorium) %>

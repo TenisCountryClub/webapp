@@ -17,74 +17,21 @@
   </div>
 
   <div class="field">
-    <%= form.label "Fecha de Inicio" %>
-    <%= form.date_select :fechaInicio %>
+    <%= form.label :fecha_inicio %>
+    <%= form.date_select :fecha_inicio %>
   </div>
 
   <div class="field">
-    <%= form.label "Fecha de Finalización" %>
-    <%= form.date_select :fechaFin %>
+    <%= form.label :fecha_fin %>
+    <%= form.date_select :fecha_fin %>
   </div>
 
-  <div class="field">
-    <%= form.label "Seleccione el tipo de torneo" %>
-    <%= form.select :tipo, options_for_select([['Cuadro de Avance','cuadroAvance'],['Round Robin','roundRobin']]), id: "tipoTorneo" %>
-  </div>
-
-  <!-- hoja calculo -->
   <div class="field">
     <%= form.label :hoja_calculo %>
     <%= form.file_field :hoja_calculo %>
   </div>
-
-  <div class="field form-cuadro-avance">
-    <%= form.label :numero_jugadores %>
-    <%= form.number_field :numero_llaves %>
-  </div>
-
-  <div class="field form-round-robin">
-    <%= form.label :numero_grupos %>
-    <%= form.number_field :numero_grupos %>
-  </div>
-
-  <div class="field form-round-robin">
-    <%= form.label :numero_jugadores_grupo %>
-    <%= form.number_field :numero_jugadores_grupo %>
-  </div>
+  
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
-
-<script type="text/javascript">
-  function insertarFormulario(){
-    if($("#torneo_tipo").val()=="cuadroAvance")
-    {
-      $("#modalidad").empty()
-      $("#modalidad").append(`<label for="cantidad_de_jugadores">Cantidad de Jugadores</label>
-      <input type="text" name="cuadroAvance[numeroJugadores]">`)
-    }
-    else if ($("#torneo_tipo").val()=="roundRobin") 
-    {
-      $("#modalidad").empty()
-      $("#modalidad").append(`<label for="cantidad_de_jugadores_por_grupo">Cantidad de jugadores por grupo</label>
-      <input type="text" name="roundRobin[numeroJugadoresGrupo]">
-      <label for="cantidad_de_grupos">Cantidad de grupos</label>
-      <input type="text" name="round[numeroGrupos]">`)
-    }
-  }
-  /*insertarFormulario()
-  $("#torneo_tipo").change(insertarFormulario)*/
-  function insertarFormulario2(){
-    if ($("#torneo_tipo").val()=="cuadroAvance") {
-      $(".form-round-robin").css("display","none")
-      $(".form-cuadro-avance").css("display","block")
-    }
-    else if ($("#torneo_tipo").val()=="roundRobin"){
-      $(".form-cuadro-avance").css("display","none")
-      $(".form-round-robin").css("display","block")
-    }
-  }
-  insertarFormulario2()
-  $("#torneo_tipo").change(insertarFormulario2)
-</script>
