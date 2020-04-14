@@ -37,7 +37,7 @@ class Torneo < ApplicationRecord
 	          @jugador.fecha_inscripcion=hoja.cell(i,6)
 	          @jugador.status=hoja.cell(i,7)
 	          @jugador.save
-	          puts jugador  
+	          puts @jugador  
 	        end
 	        i+=1
 	      end
