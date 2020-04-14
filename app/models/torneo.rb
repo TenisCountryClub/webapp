@@ -40,6 +40,7 @@ class Torneo < ApplicationRecord
 	          	puts "GUARDADO"
 	          else
 	          	puts "NO GUARDADO"
+	          	@jugador.errors.full_messages
 	          end
 	        end
 	        i+=1
