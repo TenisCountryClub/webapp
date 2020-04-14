@@ -13,25 +13,25 @@
 
   <div class="field">
     <%= form.label :nombre %>
-    <%= form.text_field :nombre %>
+    <%= form.text_field :nombre, class: "form-control" %>
   </div>
 
   <div class="field">
-    <%= form.label :fecha_inicio %>
-    <%= form.date_select :fecha_inicio, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']} %>
+    <%= form.label :fecha_inicio, style: "float:left;" %><br><br>
+    <%= form.date_select :fecha_inicio, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']},{ :class => "form-control", style: "width: 10rem; float: left;"} %><br><br>
   </div>
 
   <div class="field">
-    <%= form.label :fecha_fin %>
-    <%= form.date_select :fecha_fin, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']} %>
+    <%= form.label :fecha_fin, style: "float:left;" %><br><br>
+    <%= form.date_select :fecha_fin, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']},{ :class => "form-control", style: "width: 10rem; float: left;"} %>
   </div>
-
+  <br><br>
   <div class="field">
     <%= form.label :hoja_calculo %>
-    <%= form.file_field :hoja_calculo %>
+    <%= form.file_field :hoja_calculo, class: "form-control-file" %>
   </div>
-  
+  <br>
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Aceptar", :class => "btn btn-primary" %>
   </div>
 <% end %>

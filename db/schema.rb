@@ -80,15 +80,6 @@ ActiveRecord::Schema.define(version: 2020_04_13_002032) do
     t.index ["categorium_id"], name: "index_jugadors_on_categorium_id"
   end
 
-  create_table "llaves", force: :cascade do |t|
-    t.integer "numero"
-    t.string "etapa"
-    t.bigint "categorium_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["categorium_id"], name: "index_llaves_on_categorium_id"
-  end
-
   create_table "torneos", force: :cascade do |t|
     t.string "nombre"
     t.date "fecha_inicio"
@@ -102,5 +93,4 @@ ActiveRecord::Schema.define(version: 2020_04_13_002032) do
   add_foreign_key "cuadros", "categoria"
   add_foreign_key "grupos", "categoria"
   add_foreign_key "jugadors", "categoria"
-  add_foreign_key "llaves", "categoria"
 end

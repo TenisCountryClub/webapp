@@ -1,8 +1,8 @@
 class Categorium < ApplicationRecord
 
-	has_many :cuadros
-	has_many :grupos
-	has_many :jugadors
+	has_many :cuadros, dependent: :destroy
+	has_many :grupos, dependent: :destroy
+	has_many :jugadors, dependent: :destroy
   belongs_to :torneo
   before_save :set_numero_jugadores
   after_commit :crear_grupos_cuadros

@@ -6,7 +6,7 @@ class Torneo < ApplicationRecord
 
 	extend ActionView::Helpers::UrlHelper
 
-	has_many :categoria
+	has_many :categoria, dependent: :destroy
 
 	after_create_commit :crear_jugadores
 	has_one_attached :hoja_calculo
