@@ -36,7 +36,7 @@ class Torneo < ApplicationRecord
 	          @jugador.club_asociacion=hoja.cell(i,5)
 	          @jugador.fecha_inscripcion=hoja.cell(i,6)
 	          @jugador.status=hoja.cell(i,7)
-	          if @jugador.save
+	          if @jugador.save!
 	          	puts "GUARDADO"
 	          else
 	          	puts "NO GUARDADO"
