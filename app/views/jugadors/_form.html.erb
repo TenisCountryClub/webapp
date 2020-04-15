@@ -1,6 +1,6 @@
 <%= form_with(model: jugador, local: true) do |form| %>
   <% if jugador.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="aler alert-danger">
       <h2><%= pluralize(jugador.errors.count, "error") %> prohibited this jugador from being saved:</h2>
 
       <ul>
@@ -13,27 +13,27 @@
 
   <div class="field">
     <%= form.label :numero %>
-    <%= form.number_field :numero %>
+    <%= form.number_field :numero, class: "form-control" %>
   </div>
 
   <div class="field">
     <%= form.label :nombre %>
-    <%= form.text_field :nombre %>
+    <%= form.text_field :nombre, class: "form-control"  %>
   </div>
 
   <div class="field">
     <%= form.label :ranking %>
-    <%= form.number_field :ranking %>
+    <%= form.number_field :ranking, class: "form-control"  %>
   </div>
 
   <div class="field">
     <%= form.label :edad %>
-    <%= form.number_field :edad %>
+    <%= form.number_field :edad, class: "form-control"  %>
   </div>
 
   <div class="field">
     <%= form.label :club_asociacion %>
-    <%= form.text_field :club_asociacion %>
+    <%= form.text_field :club_asociacion, class: "form-control"  %>
   </div>
 
   <div class="field">
@@ -43,10 +43,10 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.text_field :status %>
+    <%= form.text_field :status, class: "form-control"  %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Aceptar", :class =>"btn btn-primary" %>
   </div>
 <% end %>

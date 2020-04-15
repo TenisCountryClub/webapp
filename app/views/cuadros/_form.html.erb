@@ -1,6 +1,6 @@
 <%= form_with(model: [@torneo,@categorium,cuadro], local: true) do |form| %>
   <% if cuadro.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="alert alert-danger">
       <h2><%= pluralize(cuadro.errors.count, "error") %> prohibited this cuadro from being saved:</h2>
 
       <ul>
@@ -13,15 +13,15 @@
 
   <div class="field">
     <%= form.label :numero %>
-    <%= form.number_field :numero %>
+    <%= form.number_field :numero, class: "form-control" %>
   </div>
 
   <div class="field">
     <%= form.label :etapa %>
-    <%= form.text_field :etapa %>
+    <%= form.text_field :etapa, class: "form-control" %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Aceptar", :class => "btn btn-primary" %>
   </div>
 <% end %>

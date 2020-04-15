@@ -1,6 +1,6 @@
 <h1>Editing Grupo</h1>
 
 <%= render 'form', grupo: @grupo %>
-
-<%= link_to 'Show', [@torneo, @categorium, @grupo] %> |
-<%= link_to 'Back', torneo_categorium_grupos_path(@torneo,@categorium) %>
+<br>
+<%= link_to 'Mostrar', [@torneo, @categorium, @grupo], class: "btn btn-secondary" %> 
+<%= link_to 'Atrás', torneo_categorium_grupos_path(@torneo,@categorium), class: "btn btn-secondary" %>

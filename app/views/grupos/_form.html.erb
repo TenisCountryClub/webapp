@@ -13,16 +13,16 @@
 
   <div class="field">
     <%= form.label :numero %>
-    <%= form.number_field :numero %>
+    <%= form.number_field :numero, class: "form-control" %>
   </div>
 
   <div class="field">
     <%= form.label :nombre %>
-    <%= form.text_field :nombre %>
+    <%= form.text_field :nombre, class: "form-control" %>
   </div>
 
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Aceptar", :class =>"btn btn-primary" %>
   </div>
 <% end %>

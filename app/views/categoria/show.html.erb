@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<p id="notice" class="alert alert-success"><%= notice %></p>
 
 <p>
   <strong>Nombre:</strong>
@@ -6,17 +6,17 @@
 </p>
 
 <p>
-  <strong>Numero jugadores:</strong>
+  <strong>Número de jugadores:</strong>
   <%= @categorium.numero_jugadores %>
 </p>
 
 <p>
-  <strong>Numero grupos:</strong>
+  <strong>Número de grupos:</strong>
   <%= @categorium.numero_grupos %>
 </p>
 
 <p>
-  <strong>Numero jugadores grupo:</strong>
+  <strong>Número de jugadores por grupo:</strong>
   <%= @categorium.numero_jugadores_grupo %>
 </p>
 
@@ -30,5 +30,13 @@
   <%= @categorium.torneo_id %>
 </p>
 
-<%= link_to 'Edit', edit_torneo_categorium_path(@torneo, @categorium) %> |
-<%= link_to 'Back', torneo_categoria_path(@torneo) %>
+<%= link_to 'Editar', edit_torneo_categorium_path(@torneo, @categorium), class: "btn btn-secondary" %> 
+<%= link_to 'Atrás', torneo_categoria_path(@torneo), class: "btn btn-secondary" %>
+
+<% if @categorium.tipo=="cuadroAvance" %>
+  <%= link_to 'Cuadros', torneo_categorium_cuadros_path(@torneo,@categorium), class: "btn btn-success" %>
+
+<% elsif @categorium.tipo=="roundRobin" %>
+  <%= link_to 'Grupos', torneo_categorium_grupos_path(@torneo,@categorium), class: "btn btn-success" %>
+  <%= link_to 'Cuadros', torneo_categorium_cuadros_path(@torneo,@categorium), class: "btn btn-success" %>
+<% end %>

@@ -1,8 +1,8 @@
-<p id="notice"><%= notice %></p>
+<p id="notice" class="alert alert-success"><%= notice %></p>
 
-<h1>Jugadors</h1>
+<h1>Jugadores</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Numero</th>
@@ -13,7 +13,7 @@
       <th>Fecha inscripcion</th>
       <th>Status</th>
       <th>Categoría</th>
-      <th colspan="3"></th>
+      <th colspan="5"></th>
     </tr>
   </thead>
 
@@ -44,9 +44,9 @@
         </td>
         <td><input type="submit"  value="Asociar Jugador a Torneo"></td>
         </form>
-        <td><%= link_to 'Show', jugador %></td>
-        <td><%= link_to 'Edit', edit_jugador_path(jugador) %></td>
-        <td><%= link_to 'Destroy', jugador, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Mostrar', jugador %></td>
+        <td><%= link_to 'Editar', edit_jugador_path(jugador) %></td>
+        <td><%= link_to 'Destruir', jugador, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -54,5 +54,5 @@
 
 <br>
 
-<%= link_to 'New Jugador', new_jugador_path %>
+<%= link_to 'Nuevo Jugador', new_jugador_path, class: "btn btn-secondary" %>
 

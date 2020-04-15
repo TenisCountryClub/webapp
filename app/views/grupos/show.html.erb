@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Numero:</strong>
+  <strong>Número:</strong>
   <%= @grupo.numero %>
 </p>
 
@@ -11,9 +11,9 @@
 </p>
 
 <p>
-  <strong>Categoria:</strong>
+  <strong>Categoría:</strong>
   <%= @grupo.categorium_id %>
 </p>
-
-<%= link_to 'Edit', edit_torneo_categorium_grupo_path(@torneo,@categorium,@grupo) %> |
-<%= link_to 'Back', torneo_categorium_grupos_path(@torneo,@categorium) %>
+<br>
+<%= link_to 'Editar', edit_torneo_categorium_grupo_path(@torneo,@categorium,@grupo), class: "btn btn-secondary" %> 
+<%= link_to 'Atrás', torneo_categorium_grupos_path(@torneo,@categorium), class: "btn btn-secondary" %>

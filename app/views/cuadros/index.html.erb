@@ -1,13 +1,13 @@
-<p id="notice"><%= notice %></p>
+<p id="notice" class="alert alert-success"><%= notice %></p>
 
 <h1>Cuadros</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Numero</th>
       <th>Etapa</th>
-      <th>Categorium</th>
+      <th>Categoría</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,9 +18,9 @@
         <td><%= cuadro.numero %></td>
         <td><%= cuadro.etapa %></td>
         <td><%= cuadro.categorium_id %></td>
-        <td><%= link_to 'Show', [@torneo,@categorium,cuadro] %></td>
-        <td><%= link_to 'Edit', edit_torneo_categorium_cuadro_path(@torneo,@categorium,cuadro) %></td>
-        <td><%= link_to 'Destroy', [@torneo,@categorium,cuadro], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Mostrar', [@torneo,@categorium,cuadro] %></td>
+        <td><%= link_to 'Editar', edit_torneo_categorium_cuadro_path(@torneo,@categorium,cuadro) %></td>
+        <td><%= link_to 'Destruir', [@torneo,@categorium,cuadro], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,6 @@
 
 <br>
 
-<%= link_to 'New Cuadro', new_torneo_categorium_cuadro_path %>
+<%= link_to 'Nuevo Cuadro', new_torneo_categorium_cuadro_path, class: "btn btn-secondary" %>
+
+<%= link_to 'Volver a Categoría', torneo_categoria_path(@torneo), class: "btn btn-primary" %>

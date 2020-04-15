@@ -34,6 +34,6 @@
   <strong>Status:</strong>
   <%= @jugador.status %>
 </p>
-
-<%= link_to 'Edit', edit_jugador_path(@jugador) %> |
-<%= link_to 'Back', jugadors_path %>
+<br>
+<%= link_to 'Editar', edit_jugador_path(@jugador), class: "btn btn-secondary" %> 
+<%= link_to 'Atrás', jugadors_path, class: "btn btn-secondary" %>

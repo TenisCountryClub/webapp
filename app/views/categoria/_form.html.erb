@@ -13,31 +13,31 @@
 
   <div class="field">
     <%= form.label :nombre %>
-    <%= form.text_field :nombre %>
+    <%= form.text_field :nombre, class: "form-control" %>
   </div>
 
   <div class="field">
     <%= form.label "Seleccione el tipo de torneo" %>
-    <%= form.select :tipo, options_for_select([['Cuadro de Avance','cuadroAvance'],['Round Robin','roundRobin']]), id: "tipoTorneo" %>
+    <%= form.select :tipo, options_for_select([['Cuadro de Avance','cuadroAvance'],['Round Robin','roundRobin']]), id: "tipoTorneo", class: "form-control" %>
   </div>
 
   <div class="field form-cuadro-avance">
     <%= form.label :numero_jugadores %>
-    <%= form.number_field :numero_jugadores %>
+    <%= form.number_field :numero_jugadores, class: "form-control" %>
   </div>
 
   <div class="field form-round-robin">
     <%= form.label :numero_grupos %>
-    <%= form.number_field :numero_grupos %>
+    <%= form.number_field :numero_grupos, class: "form-control" %>
   </div>
 
   <div class="field form-round-robin">
     <%= form.label :numero_jugadores_grupo %>
-    <%= form.number_field :numero_jugadores_grupo %>
+    <%= form.number_field :numero_jugadores_grupo, class: "form-control" %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Aceptar", :class => "btn btn-primary" %>
   </div>
 <% end %>
 

@@ -1,6 +1,6 @@
 <%= form_with(model: torneo, local: true) do |form| %>
   <% if torneo.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="alert alert-danger">
       <h2><%= pluralize(torneo.errors.count, "error") %> prohibited this torneo from being saved:</h2>
 
       <ul>

@@ -1,6 +1,6 @@
-<h1>Editing Cuadro</h1>
+<h1>Editar Cuadro</h1>
 
 <%= render 'form', cuadro: @cuadro %>
-
-<%= link_to 'Show', [@torneo, @categorium,@cuadro] %> |
-<%= link_to 'Back', torneo_categorium_cuadros_path(@torneo,@categorium) %>
+<br>
+<%= link_to 'Show', [@torneo, @categorium,@cuadro], class: "btn btn-secondary" %> 
+<%= link_to 'Back', torneo_categorium_cuadros_path(@torneo,@categorium), class: "btn btn-secondary" %>

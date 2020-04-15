@@ -2,12 +2,12 @@
 
 <h1>Grupos</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
-      <th>Numero</th>
+      <th>Número</th>
       <th>Nombre</th>
-      <th>Categoria</th>
+      <th>Categoría</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,9 +18,9 @@
         <td><%= grupo.numero %></td>
         <td><%= grupo.nombre %></td>
         <td><%= grupo.categorium_id %></td>
-        <td><%= link_to 'Show', [@torneo,@categorium,grupo] %></td>
-        <td><%= link_to 'Edit', edit_torneo_categorium_grupo_path(@torneo,@categorium,grupo) %></td>
-        <td><%= link_to 'Destroy', [@torneo,@categorium,grupo], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Mostrar', [@torneo,@categorium,grupo] %></td>
+        <td><%= link_to 'Editar', edit_torneo_categorium_grupo_path(@torneo,@categorium,grupo) %></td>
+        <td><%= link_to 'Destruir', [@torneo,@categorium,grupo], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,6 @@
 
 <br>
 
-<%= link_to 'New Grupo', new_torneo_categorium_grupo_path %>
+<%= link_to 'Nuevo Grupo', new_torneo_categorium_grupo_path, class: "btn btn-secondary" %>
+
+<%= link_to 'Volver a Categoría', torneo_categoria_path(@torneo), class: "btn btn-primary" %>

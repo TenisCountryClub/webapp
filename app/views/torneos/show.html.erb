@@ -16,9 +16,10 @@
   <strong>Fecha fin:</strong>
   <%= @torneo.fecha_fin %>
 </p>
-
-<%= link_to 'Edit', edit_torneo_path(@torneo) %> |
-<%= link_to 'Back', torneos_path %>
+<br>
+<%= link_to 'Editar', edit_torneo_path(@torneo), class: "btn btn-secondary" %> |
+<%= link_to 'Atrás', torneos_path, class: "btn btn-secondary" %>
+<%= link_to 'Categorías', torneo_categoria_path(@torneo), class: "btn btn-success" %>
 
 <script type="text/javascript">
   if ($('#alert').is(':empty')) {
