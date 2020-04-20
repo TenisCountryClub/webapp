@@ -15,8 +15,10 @@ class Torneo < ApplicationRecord
 	
 	
 
-	validates :nombre, :fecha_inicio, :fecha_fin, presence: true
-	validates :nombre, uniqueness: true
+	validates_presence_of :nombre, :message => "no puede estar vacío"
+	validates_presence_of :fecha_inicio, :message => "no puede estar vacío"
+	validates_presence_of :fecha_fin, :message => "no puede estar vacío"
+	validates :nombre, uniqueness: {message: "debe ser único"}
 	validate :fechaInicio_no_pasada, :fechaFin_despues_inicio
 	validate :es_xlsx, :presencia_adjunto
 

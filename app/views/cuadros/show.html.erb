@@ -1,5 +1,6 @@
-<p id="notice" class="alert alert-success"><%= notice %></p>
-
+<p id="notice" class="alert alert-success"><span id ="alert"><%= notice %></span><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span>
+  </button></p>
+  
 <p>
   <strong>Número:</strong>
   <%= @cuadro.numero %>
@@ -17,3 +18,10 @@
 
 <%= link_to 'Edit', edit_torneo_categorium_cuadro_path(@torneo,@categorium,@cuadro) %> |
 <%= link_to 'Back', torneo_categorium_cuadros_path(@torneo,@categorium) %>
+
+
+<script type="text/javascript">
+  if ($('#alert').is(':empty')) {
+    $('#notice').css('display','none');
+  }
+</script>

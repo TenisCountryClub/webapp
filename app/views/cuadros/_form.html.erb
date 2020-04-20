@@ -1,8 +1,11 @@
 <%= form_with(model: [@torneo,@categorium,cuadro], local: true) do |form| %>
   <% if cuadro.errors.any? %>
     <div id="error_explanation" class="alert alert-danger">
-      <h2><%= pluralize(cuadro.errors.count, "error") %> prohibited this cuadro from being saved:</h2>
-
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+      <h2><%= pluralize(cuadro.errors.count, "error",plural: "errores") %> prohibieron que este cuadro se guarde:</h2>
+      
       <ul>
         <% cuadro.errors.full_messages.each do |message| %>
           <li><%= message %></li>

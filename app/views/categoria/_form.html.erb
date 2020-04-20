@@ -1,8 +1,10 @@
 <%= form_with(model: [@torneo,categorium], local: true) do |form| %>
   <% if categorium.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(categorium.errors.count, "error") %> prohibited this categorium from being saved:</h2>
-
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(categorium.errors.count, "error", plural: "errores") %> prohibieron que esta categoría se guarde:</h2>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
       <ul>
         <% categorium.errors.full_messages.each do |message| %>
           <li><%= message %></li>

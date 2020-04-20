@@ -1,8 +1,11 @@
 <%= form_with(model: jugador, local: true) do |form| %>
   <% if jugador.errors.any? %>
     <div id="error_explanation" class="aler alert-danger">
-      <h2><%= pluralize(jugador.errors.count, "error") %> prohibited this jugador from being saved:</h2>
-
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+      <h2><%= pluralize(jugador.errors.count, "error", plural: "errores") %> prohibieron que este jugador se guarde:</h2>
+      
       <ul>
         <% jugador.errors.full_messages.each do |message| %>
           <li><%= message %></li>

@@ -1,8 +1,8 @@
 class Grupo < ApplicationRecord
   belongs_to :categorium
 
-  validates :numero, :nombre, :categorium_id, presence: true
-  validates :numero,  numericality: {only_integer: true}
+  validates :numero, :nombre, :categorium_id, presence: {message: "no puede estar vacío"}
+  validates :numero,  numericality: {only_integer: true, message: "no puede ser otra cosa que un entero"}
 
 
   def set_numero(valor)

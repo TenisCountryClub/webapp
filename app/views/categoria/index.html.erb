@@ -1,4 +1,5 @@
-<p id="notice" class="alert alert-success"><%= notice %></p>
+<p id="notice" class="alert alert-success"><span id ="alert"><%= notice %></span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+  </button></p>
 
 <h1>Categorías</h1>
 
@@ -36,3 +37,10 @@
 
 <%= link_to 'Nueva Categoría', new_torneo_categorium_path(@torneo), class: "btn btn-secondary" %>
 <%= link_to 'Volver a Torneo', @torneo, class: "btn btn-primary" %>
+
+
+<script type="text/javascript">
+  if ($('#alert').is(':empty')) {
+    $('#notice').css('display','none');
+  }
+</script>

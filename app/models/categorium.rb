@@ -7,11 +7,11 @@ class Categorium < ApplicationRecord
   before_save :set_numero_jugadores
   after_commit :crear_grupos_cuadros
 
-  	validates :nombre, presence: true
-	validates :numero_grupos,:numero_jugadores_grupo, presence: true, if: :es_roundRobin?
-	validates :numero_jugadores, presence: true, if: :es_cuadroAvance?
-	validates :numero_jugadores, numericality: {only_integer: true},if: :es_cuadroAvance?
-	validates :numero_grupos,:numero_jugadores_grupo,  numericality: {only_integer: true}, if: :es_roundRobin?
+  	validates :nombre, presence: {message: "no puede estar vacío"}
+	validates :numero_grupos,:numero_jugadores_grupo, presence: {message: "no puede estar vacío"}, if: :es_roundRobin?
+	validates :numero_jugadores, presence: {message: "no puede estar vacío"}, if: :es_cuadroAvance?
+	validates :numero_jugadores, numericality: {only_integer: true, message: "no puede ser otra cosa que un entero"},if: :es_cuadroAvance?
+	validates :numero_grupos,:numero_jugadores_grupo,  numericality: {only_integer: true, message: "no puede ser otra cosa que un entero"}, if: :es_roundRobin?
 	validate :es_potencia_de_dos
 	validate :cuadra_grupos_cuadros
 
