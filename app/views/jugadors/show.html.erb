@@ -1,6 +1,8 @@
 <p id="notice" class="alert alert-success"><span id ="alert"><%= notice %></span><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span>
   </button></p>
-
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
 <p>
   <strong>Numero:</strong>
   <%= @jugador.numero %>
@@ -38,7 +40,8 @@
 <br>
 <%= link_to 'Editar', edit_jugador_path(@jugador), class: "btn btn-secondary" %> 
 <%= link_to 'Atrás', jugadors_path, class: "btn btn-secondary" %>
-
+</div>
+</div>
 
 <script type="text/javascript">
   if ($('#alert').is(':empty')) {

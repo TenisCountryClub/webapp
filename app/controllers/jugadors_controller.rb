@@ -44,7 +44,7 @@ class JugadorsController < ApplicationController
 
     respond_to do |format|
       if @jugador.save
-        format.html { redirect_to @jugador, notice: 'Jugador was successfully created.' }
+        format.html { redirect_to @jugador, notice: 'Jugador fue creado exitosamente.' }
         format.json { render :show, status: :created, location: @jugador }
       else
         format.html { render :new }
@@ -58,7 +58,7 @@ class JugadorsController < ApplicationController
   def update
     respond_to do |format|
       if @jugador.update(jugador_params)
-        format.html { redirect_to @jugador, notice: 'Jugador was successfully updated.' }
+        format.html { redirect_to @jugador, notice: 'Jugador fue editado exitosamente.' }
         format.json { render :show, status: :ok, location: @jugador }
       else
         format.html { render :edit }
@@ -72,7 +72,7 @@ class JugadorsController < ApplicationController
   def destroy
     @jugador.destroy
     respond_to do |format|
-      format.html { redirect_to jugadors_url, notice: 'Jugador was successfully destroyed.' }
+      format.html { redirect_to jugadors_url, notice: 'Jugador fue destruido exitosamente.' }
       format.json { head :no_content }
     end
   end

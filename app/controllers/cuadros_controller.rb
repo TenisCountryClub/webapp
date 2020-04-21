@@ -29,7 +29,7 @@ class CuadrosController < ApplicationController
 
     respond_to do |format|
       if @cuadro.save
-        format.html { redirect_to [@torneo,@categorium,@cuadro], notice: 'Cuadro was successfully created.' }
+        format.html { redirect_to [@torneo,@categorium,@cuadro], notice: 'Cuadro fue creado exitosamente.' }
         format.json { render :show, status: :created, location: @cuadro }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class CuadrosController < ApplicationController
   def update
     respond_to do |format|
       if @cuadro.update(cuadro_params)
-        format.html { redirect_to @cuadro, notice: 'Cuadro was successfully updated.' }
+        format.html { redirect_to @cuadro, notice: 'Cuadro fue editado exitosamente.' }
         format.json { render :show, status: :ok, location: @cuadro }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class CuadrosController < ApplicationController
   def destroy
     @cuadro.destroy
     respond_to do |format|
-      format.html { redirect_to torneo_categorium_cuadros_url(@torneo,@categorium), notice: 'Cuadro was successfully destroyed.' }
+      format.html { redirect_to torneo_categorium_cuadros_url(@torneo,@categorium), notice: 'Cuadro fue destruido exitosamente.' }
       format.json { head :no_content }
     end
   end

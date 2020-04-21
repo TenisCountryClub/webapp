@@ -1,12 +1,21 @@
 class CategoriaController < ApplicationController
   before_action :get_torneo
-  before_action :set_categorium, only: [:show, :edit, :update, :destroy]
+  before_action :set_categorium, only: [:show, :edit, :update, :destroy, :sortear]
   
 
   # GET /categoria
   # GET /categoria.json
   def index
     @categoria = @torneo.categoria
+  end
+
+  def sortear
+    @categorium.sortear_categoria
+    if @categorium.tipo=="cuadroAvance"
+      redirect_to '/cuadro_jugadors'
+    elsif @categorium.tipo=="roundRobin"
+      redirect_to '/grupo_jugadors'
+    end
   end
 
   # GET /categoria/1
@@ -30,7 +39,7 @@ class CategoriaController < ApplicationController
 
     respond_to do |format|
       if @categorium.save
-        format.html { redirect_to torneo_categoria_path(@torneo), notice: 'Categorium was successfully created.' }
+        format.html { redirect_to torneo_categoria_path(@torneo), notice: 'Categoría fue creada exitosamente.' }
         format.json { render :show, status: :created, location: @categorium }
       else
         format.html { render :new }
@@ -44,7 +53,7 @@ class CategoriaController < ApplicationController
   def update
     respond_to do |format|
       if @categorium.update(categorium_params)
-        format.html { redirect_to torneo_categoria_path(@torneo), notice: 'Categorium was successfully updated.' }
+        format.html { redirect_to torneo_categoria_path(@torneo), notice: 'Categoría fue editada exitosamente.' }
         format.json { render :show, status: :ok, location: @categorium }
       else
         format.html { render :edit }
@@ -58,7 +67,7 @@ class CategoriaController < ApplicationController
   def destroy
     @categorium.destroy
     respond_to do |format|
-      format.html { redirect_to torneo_categoria_path(@torneo), notice: 'Categorium was successfully destroyed.' }
+      format.html { redirect_to torneo_categoria_path(@torneo), notice: 'Categoría fue destruida exitosamente.' }
       format.json { head :no_content }
     end
   end

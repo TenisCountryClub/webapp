@@ -1,0 +1,32 @@
+<%= form_with(model: cuadro_jugador, local: true) do |form| %>
+  <% if cuadro_jugador.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cuadro_jugador.errors.count, "error") %> prohibited this cuadro_jugador from being saved:</h2>
+
+      <ul>
+        <% cuadro_jugador.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :cuadro_id %>
+    <%= form.text_field :cuadro_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :jugador_id %>
+    <%= form.text_field :jugador_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :numero %>
+    <%= form.number_field :numero %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

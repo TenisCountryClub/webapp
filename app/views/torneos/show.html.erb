@@ -2,6 +2,9 @@
     <span aria-hidden="true">&times;</span>
   </button></p>
 
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
 <p>
   <strong>Nombre:</strong>
   <%= @torneo.nombre %>
@@ -20,6 +23,8 @@
 <%= link_to 'Editar', edit_torneo_path(@torneo), class: "btn btn-secondary" %> |
 <%= link_to 'Atrás', torneos_path, class: "btn btn-secondary" %>
 <%= link_to 'Categorías', torneo_categoria_path(@torneo), class: "btn btn-success" %>
+</div>
+</div>
 
 <script type="text/javascript">
   if ($('#alert').is(':empty')) {

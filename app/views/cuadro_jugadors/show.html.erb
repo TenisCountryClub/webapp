@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cuadro:</strong>
+  <%= @cuadro_jugador.cuadro_id %>
+</p>
+
+<p>
+  <strong>Jugador:</strong>
+  <%= @cuadro_jugador.jugador_id %>
+</p>
+
+<p>
+  <strong>Numero:</strong>
+  <%= @cuadro_jugador.numero %>
+</p>
+
+<%= link_to 'Edit', edit_cuadro_jugador_path(@cuadro_jugador) %> |
+<%= link_to 'Back', cuadro_jugadors_path %>

@@ -28,7 +28,7 @@ class TorneosController < ApplicationController
 
     respond_to do |format|
       if @torneo.save
-        format.html { redirect_to @torneo, notice: 'Torneo was successfully created.' }
+        format.html { redirect_to @torneo, notice: 'Torneo fue creado exitosamente.' }
         format.json { render :show, status: :created, location: @torneo }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class TorneosController < ApplicationController
   def update
     respond_to do |format|
       if @torneo.update(torneo_params)
-        format.html { redirect_to @torneo, notice: 'Torneo was successfully updated.' }
+        format.html { redirect_to @torneo, notice: 'Torneo fue editado exitosamente.' }
         format.json { render :show, status: :ok, location: @torneo }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class TorneosController < ApplicationController
   def destroy
     @torneo.destroy
     respond_to do |format|
-      format.html { redirect_to torneos_url, notice: 'Torneo was successfully destroyed.' }
+      format.html { redirect_to torneos_url, notice: 'Torneo fue destruido exitosamente.' }
       format.json { head :no_content }
     end
   end

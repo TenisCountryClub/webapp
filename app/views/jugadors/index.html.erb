@@ -37,17 +37,17 @@
           </td>
         <td> 
           <form action="/asociar_jugador/<%= jugador.id %>" method="post">
-          <select name="jugador[categorium_id]">
+          <select name="jugador[categorium_id]" class="form-control">
           <% @categorias.each do |categorium|%>
             <option value="<%=categorium["id"]%>"><%=categorium["Nombre"]%></option>
           <% end %>
           </select>
         </td>
-        <td><input type="submit"  value="Asociar Jugador a Torneo"></td>
+        <td><input class="btn btn-light" type="submit"  value="Asociar Jugador a Torneo"></td>
         </form>
-        <td><%= link_to 'Mostrar', jugador %></td>
-        <td><%= link_to 'Editar', edit_jugador_path(jugador) %></td>
-        <td><%= link_to 'Destruir', jugador, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Mostrar', jugador, class: "btn btn-info" %></td>
+        <td><%= link_to 'Editar', edit_jugador_path(jugador), class: "btn btn-warning" %></td>
+        <td><%= link_to 'Destruir', jugador, method: :delete, data: { confirm: '¿Está seguro?' }, class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>

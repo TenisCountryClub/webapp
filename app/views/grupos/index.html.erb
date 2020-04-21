@@ -19,9 +19,9 @@
         <td><%= grupo.numero %></td>
         <td><%= grupo.nombre %></td>
         <td><%= grupo.categorium_id %></td>
-        <td><%= link_to 'Mostrar', [@torneo,@categorium,grupo] %></td>
-        <td><%= link_to 'Editar', edit_torneo_categorium_grupo_path(@torneo,@categorium,grupo) %></td>
-        <td><%= link_to 'Destruir', [@torneo,@categorium,grupo], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Mostrar', [@torneo,@categorium,grupo], class: "btn btn-info" %></td>
+        <td><%= link_to 'Editar', edit_torneo_categorium_grupo_path(@torneo,@categorium,grupo), class: "btn btn-warning" %></td>
+        <td><%= link_to 'Destruir', [@torneo,@categorium,grupo], method: :delete, data: { confirm: '¿Está seguro?' }, class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -31,7 +31,7 @@
 
 <%= link_to 'Nuevo Grupo', new_torneo_categorium_grupo_path, class: "btn btn-secondary" %>
 
-<%= link_to 'Volver a Categoría', torneo_categoria_path(@torneo), class: "btn btn-primary" %>
+<%= link_to 'Volver a Categoría', [@torneo,@categorium], class: "btn btn-primary" %>
 
 
 <script type="text/javascript">

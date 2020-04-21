@@ -20,9 +20,9 @@
         <td><%= torneo.nombre %></td>
         <td><%= torneo.fecha_inicio %></td>
         <td><%= torneo.fecha_fin %></td>
-        <td><%= link_to 'Mostrar', torneo %></td>
-        <td><%= link_to 'Editar', edit_torneo_path(torneo) %></td>
-        <td><%= link_to 'Destruir', torneo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Mostrar', torneo, class: "btn btn-info" %></td>
+        <td><%= link_to 'Editar', edit_torneo_path(torneo), class: "btn btn-warning" %></td>
+        <td><%= link_to 'Destruir', torneo, method: :delete, data: { confirm: '¿Está seguro?' }, class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>

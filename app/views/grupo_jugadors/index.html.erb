@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Grupo Jugadors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Grupo</th>
+      <th>Jugador</th>
+      <th>Numero</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @grupo_jugadors.each do |grupo_jugador| %>
+      <tr>
+        <td><%= grupo_jugador.grupo.nombre %></td>
+        <td><%=grupo_jugador.jugador.numero.to_s+" "+  grupo_jugador.jugador.nombre %></td>
+        <td><%= grupo_jugador.numero %></td>
+        <td><%= link_to 'Show', grupo_jugador %></td>
+        <td><%= link_to 'Edit', edit_grupo_jugador_path(grupo_jugador) %></td>
+        <td><%= link_to 'Destroy', grupo_jugador, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Grupo Jugador', new_grupo_jugador_path %>

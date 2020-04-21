@@ -1,4 +1,4 @@
-<%= form_with(model: torneo, local: true) do |form| %>
+<%= bootstrap_form_with(model: torneo, local: true) do |form| %>
   <% if torneo.errors.any? %>
     <div id="error_explanation" class="alert alert-danger">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -15,23 +15,20 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :nombre %>
-    <%= form.text_field :nombre, class: "form-control" %>
+    
+    <%= form.text_field :nombre %>
   </div>
 
   <div class="field">
-    <%= form.label :fecha_inicio, style: "float:left;" %><br><br>
-    <%= form.date_select :fecha_inicio, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']},{ :class => "form-control", style: "width: 10rem; float: left;"} %><br><br>
+    
+    <%= form.date_select :fecha_inicio, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']} %>
   </div>
 
   <div class="field">
-    <%= form.label :fecha_fin, style: "float:left;" %><br><br>
-    <%= form.date_select :fecha_fin, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']},{ :class => "form-control", style: "width: 10rem; float: left;"} %>
+    <%= form.date_select :fecha_fin, {:use_month_names => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre','Diciembre']} %>
   </div>
-  <br><br>
   <div class="field">
-    <%= form.label :hoja_calculo %>
-    <%= form.file_field :hoja_calculo, class: "form-control-file" %>
+    <%= form.file_field :hoja_calculo, placeholder: "Escoja Archivo" %>
   </div>
   <br>
   <div class="actions">

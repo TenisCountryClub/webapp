@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Grupo:</strong>
+  <%= @grupo_jugador.grupo_id %>
+</p>
+
+<p>
+  <strong>Jugador:</strong>
+  <%= @grupo_jugador.jugador_id %>
+</p>
+
+<p>
+  <strong>Numero:</strong>
+  <%= @grupo_jugador.numero %>
+</p>
+
+<%= link_to 'Edit', edit_grupo_jugador_path(@grupo_jugador) %> |
+<%= link_to 'Back', grupo_jugadors_path %>

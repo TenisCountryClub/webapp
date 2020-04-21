@@ -1,5 +1,6 @@
 class Cuadro < ApplicationRecord
   belongs_to :categorium
+  has_many :cuadro_jugadors
 
   validates :numero, :etapa, :categorium_id, presence: {message: "no puede estar vacío"}
   validates :numero,  numericality: {only_integer: true, message: "no puede ser otra cosa que un entero"}

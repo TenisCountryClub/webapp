@@ -1,0 +1,32 @@
+<%= form_with(model: grupo_jugador, local: true) do |form| %>
+  <% if grupo_jugador.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(grupo_jugador.errors.count, "error") %> prohibited this grupo_jugador from being saved:</h2>
+
+      <ul>
+        <% grupo_jugador.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :grupo_id %>
+    <%= form.text_field :grupo_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :jugador_id %>
+    <%= form.text_field :jugador_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :numero %>
+    <%= form.number_field :numero %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

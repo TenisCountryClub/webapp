@@ -133,4 +133,58 @@ class Categorium < ApplicationRecord
 	def es_cuadroAvance?
 		tipo=="cuadroAvance"
 	end
+
+	def sortear_cuadroAvance(categorium_id)
+		jugadores= Jugador.where(categorium_id: categorium_id).order(:ranking).to_a
+		categorium = Categorium.find(categorium_id)
+		categorium.cuadros.each do |cuadro|
+			if jugadores.length>0
+				cuadro_jugador1=CuadroJugador.new
+				cuadro_jugador1.cuadro= cuadro
+				aleatorio=rand(0..(jugadores.length-1))
+				cuadro_jugador1.jugador= jugadores[aleatorio]
+				cuadro_jugador1.numero=1
+				jugadores.delete_at(aleatorio)
+				cuadro_jugador1.save
+			end
+			if jugadores.length>0
+				cuadro_jugador2=CuadroJugador.new
+				cuadro_jugador2.cuadro= cuadro
+				aleatorio=rand(0..(jugadores.length-1))
+				cuadro_jugador2.jugador= jugadores[aleatorio]
+				cuadro_jugador2.numero=2
+				jugadores.delete_at(aleatorio)
+				cuadro_jugador2.save
+			end
+		end
+	end
+
+	def sortear_roundRobin(categorium_id)
+		jugadores= Jugador.where(categorium_id: categorium_id).order(:ranking).to_a
+		categorium = Categorium.find(categorium_id)
+		categorium.grupos.each do |grupo|
+			i=0
+			while i<4
+				if jugadores.length>0
+					puts "hola"
+					grupo_jugador= GrupoJugador.new
+					grupo_jugador.grupo=grupo
+					aleatorio=rand(0..(jugadores.length-1))
+					grupo_jugador.jugador=jugadores[aleatorio]
+					grupo_jugador.numero=i+1
+					jugadores.delete_at(aleatorio)
+					grupo_jugador.save					
+				end
+				i+=1
+			end
+		end
+	end
+
+	def sortear_categoria
+		if self.tipo=="cuadroAvance"
+			sortear_cuadroAvance(self.id)
+		elsif self.tipo=="roundRobin"
+			sortear_roundRobin(self.id)
+		end
+	end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_13_002032) do
+ActiveRecord::Schema.define(version: 2020_04_21_174437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,16 @@ ActiveRecord::Schema.define(version: 2020_04_13_002032) do
     t.index ["torneo_id"], name: "index_categoria_on_torneo_id"
   end
 
+  create_table "cuadro_jugadors", force: :cascade do |t|
+    t.bigint "cuadro_id", null: false
+    t.bigint "jugador_id", null: false
+    t.integer "numero"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cuadro_id"], name: "index_cuadro_jugadors_on_cuadro_id"
+    t.index ["jugador_id"], name: "index_cuadro_jugadors_on_jugador_id"
+  end
+
   create_table "cuadros", force: :cascade do |t|
     t.integer "numero"
     t.string "etapa"
@@ -55,6 +65,16 @@ ActiveRecord::Schema.define(version: 2020_04_13_002032) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["categorium_id"], name: "index_cuadros_on_categorium_id"
+  end
+
+  create_table "grupo_jugadors", force: :cascade do |t|
+    t.bigint "grupo_id", null: false
+    t.bigint "jugador_id", null: false
+    t.integer "numero"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["grupo_id"], name: "index_grupo_jugadors_on_grupo_id"
+    t.index ["jugador_id"], name: "index_grupo_jugadors_on_jugador_id"
   end
 
   create_table "grupos", force: :cascade do |t|
@@ -90,7 +110,11 @@ ActiveRecord::Schema.define(version: 2020_04_13_002032) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categoria", "torneos"
+  add_foreign_key "cuadro_jugadors", "cuadros"
+  add_foreign_key "cuadro_jugadors", "jugadors"
   add_foreign_key "cuadros", "categoria"
+  add_foreign_key "grupo_jugadors", "grupos"
+  add_foreign_key "grupo_jugadors", "jugadors"
   add_foreign_key "grupos", "categoria"
   add_foreign_key "jugadors", "categoria"
 end
