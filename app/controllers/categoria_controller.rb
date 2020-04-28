@@ -12,9 +12,11 @@ class CategoriaController < ApplicationController
   def sortear
     @categorium.sortear_categoria
     if @categorium.tipo=="cuadroAvance"
-      redirect_to '/cuadro_jugadors'
+      
+      redirect_to torneo_categorium_cuadro_jugadors_path(@torneo,@categorium)
     elsif @categorium.tipo=="roundRobin"
-      redirect_to '/grupo_jugadors'
+      
+      redirect_to torneo_categorium_grupo_jugadors_path(@torneo,@categorium)
     end
   end
 

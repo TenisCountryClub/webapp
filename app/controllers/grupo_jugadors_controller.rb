@@ -1,9 +1,11 @@
 class GrupoJugadorsController < ApplicationController
   before_action :set_grupo_jugador, only: [:show, :edit, :update, :destroy]
+  before_action :get_categorium, :get_torneo
 
   # GET /grupo_jugadors
   # GET /grupo_jugadors.json
   def index
+    @grupos= @categorium.grupos.order(:id)
     @grupo_jugadors = GrupoJugador.all
   end
 
@@ -62,6 +64,12 @@ class GrupoJugadorsController < ApplicationController
   end
 
   private
+    def get_torneo
+      @torneo= Torneo.find(params[:torneo_id])
+    end
+    def get_categorium
+      @categorium= Categorium.find(params[:categorium_id])
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_grupo_jugador
       @grupo_jugador = GrupoJugador.find(params[:id])

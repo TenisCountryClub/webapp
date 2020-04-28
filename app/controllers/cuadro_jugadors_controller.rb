@@ -1,10 +1,11 @@
 class CuadroJugadorsController < ApplicationController
+  before_action :get_categorium, :get_torneo
   before_action :set_cuadro_jugador, only: [:show, :edit, :update, :destroy]
 
   # GET /cuadro_jugadors
   # GET /cuadro_jugadors.json
   def index
-    @cuadro_jugadors = CuadroJugador.all
+    @cuadros= @categorium.cuadros.order(:id)
   end
 
   # GET /cuadro_jugadors/1
@@ -62,6 +63,13 @@ class CuadroJugadorsController < ApplicationController
   end
 
   private
+    def get_torneo
+      @torneo= Torneo.find(params[:torneo_id])
+    end
+    def get_categorium
+      @categorium= Categorium.find(params[:categorium_id])
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_cuadro_jugador
       @cuadro_jugador = CuadroJugador.find(params[:id])

@@ -1,10 +1,10 @@
 <h1>Editar Cuadro</h1>
 <div class="row">
 	<div class="col-md-1"></div>
-	<div class="col-md-10"></div>
+	<div class="col-md-10">
 <%= render 'form', cuadro: @cuadro %>
 <br>
-<%= link_to 'Show', [@torneo, @categorium,@cuadro], class: "btn btn-secondary" %> 
-<%= link_to 'Back', torneo_categorium_cuadros_path(@torneo,@categorium), class: "btn btn-secondary" %>
+<%= link_to 'Mostrar', [@torneo, @categorium,@cuadro], class: "btn btn-secondary" %> 
+<%= link_to 'Atrás', torneo_categorium_cuadros_path(@torneo,@categorium), class: "btn btn-secondary" %>
 </div>
 </div>

@@ -1,31 +1,36 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Cuadro Jugadors</h1>
+<h1>Sorteo <%= @categorium.torneo.nombre+" "+@categorium.nombre %></h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Cuadro</th>
       <th>Jugador</th>
       <th>Numero</th>
+      <th>Numero Siembra</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @cuadro_jugadors.each do |cuadro_jugador| %>
-      <tr>
-        <td><%= cuadro_jugador.cuadro_id.to_s+" "+cuadro_jugador.cuadro.etapa %></td>
-        <td><%= cuadro_jugador.jugador.numero.to_s+" "+ cuadro_jugador.jugador.nombre %></td>
-        <td><%= cuadro_jugador.numero %></td>
-        <td><%= link_to 'Show', cuadro_jugador %></td>
-        <td><%= link_to 'Edit', edit_cuadro_jugador_path(cuadro_jugador) %></td>
-        <td><%= link_to 'Destroy', cuadro_jugador, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <% @cuadros.each do |cuadro| %>
+      <% cuadro.cuadro_jugadors.order(:numero).each do |cuadro_jugador| %>
+        <tr<%if cuadro_jugador.cuadro_id%2==0 %> class= "table-secondary" <% end %>>
+          <td><%= cuadro_jugador.cuadro_id.to_s+" "+cuadro_jugador.cuadro.etapa %></td>
+          <td><%= cuadro_jugador.jugador.numero.to_s+" "+ cuadro_jugador.jugador.nombre %></td>
+          <td><%= cuadro_jugador.numero %></td>
+          <td><%= cuadro_jugador.numero_siembra%></td>
+          <!--td><%= link_to 'Show', cuadro_jugador %></td>
+          <td><%= link_to 'Edit', edit_cuadro_jugador_path(cuadro_jugador) %></td>
+          <td><%= link_to 'Destroy', cuadro_jugador, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New Cuadro Jugador', new_cuadro_jugador_path %>
+<!--<%= link_to 'New Cuadro Jugador', new_cuadro_jugador_path %>-->
+<%= link_to "Atras",[@torneo, @categorium], class: "btn btn-secondary" %>

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   root 'index#index'
   resources :torneos do
     resources :categoria do
+          resources :cuadro_jugadors
+          resources :grupo_jugadors
           resources :grupos
           resources :cuadros
     end
@@ -16,7 +18,6 @@ Rails.application.routes.draw do
   get '/torneos/:torneo_id/categoria/:id/sortear', to: 'categoria#sortear'
   resources :jugadors
     post '/asociar_jugador/:id', to: 'jugadors#asociar_jugador'
-  	get  '/obtener_hoja_calculo', to: 'torneos#obtener_hoja_calculo'
-  	post '/obtener_jugadores', to: 'torneos#obtener_jugadores'
+  	
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

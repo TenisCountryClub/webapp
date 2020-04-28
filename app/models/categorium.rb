@@ -134,11 +134,10 @@ class Categorium < ApplicationRecord
 		tipo=="cuadroAvance"
 	end
 
-	def sortear_cuadroAvance(categorium_id)
-		jugadores= Jugador.where(categorium_id: categorium_id).order(:ranking).to_a
+	def sortear_cuadroAvance(categorium_id, jugadores)
 		categorium = Categorium.find(categorium_id)
 		categorium.cuadros.each do |cuadro|
-			if jugadores.length>0
+			if jugadores.length>0 and cuadro.cuadro_jugadors.where(numero: 1).empty?
 				cuadro_jugador1=CuadroJugador.new
 				cuadro_jugador1.cuadro= cuadro
 				aleatorio=rand(0..(jugadores.length-1))
@@ -147,7 +146,7 @@ class Categorium < ApplicationRecord
 				jugadores.delete_at(aleatorio)
 				cuadro_jugador1.save
 			end
-			if jugadores.length>0
+			if jugadores.length>0 and cuadro.cuadro_jugadors.where(numero: 2).empty?
 				cuadro_jugador2=CuadroJugador.new
 				cuadro_jugador2.cuadro= cuadro
 				aleatorio=rand(0..(jugadores.length-1))
@@ -160,19 +159,30 @@ class Categorium < ApplicationRecord
 	end
 
 	def sortear_roundRobin(categorium_id)
-		jugadores= Jugador.where(categorium_id: categorium_id).order(:ranking).to_a
+		jugadores= Jugador.where(categorium_id: categorium_id).order(:ranking)
+		siembras= jugadores.first(jugadores.length/4)
+		no_siembras=jugadores.last(jugadores.length-jugadores.length/4)
 		categorium = Categorium.find(categorium_id)
+		i=0
+		categorium.grupos.each do |grupo|
+			grupo_jugador= GrupoJugador.new
+			grupo_jugador.grupo=grupo
+			grupo_jugador.jugador=siembras[i]
+			grupo_jugador.numero=1
+			grupo_jugador.save
+			i+=1
+		end
 		categorium.grupos.each do |grupo|
 			i=0
 			while i<4
-				if jugadores.length>0
+				if no_siembras.length>0 and grupo.grupo_jugadors.where(numero: i+1).empty?
 					puts "hola"
 					grupo_jugador= GrupoJugador.new
 					grupo_jugador.grupo=grupo
-					aleatorio=rand(0..(jugadores.length-1))
-					grupo_jugador.jugador=jugadores[aleatorio]
+					aleatorio=rand(0..(no_siembras.length-1))
+					grupo_jugador.jugador=no_siembras[aleatorio]
 					grupo_jugador.numero=i+1
-					jugadores.delete_at(aleatorio)
+					no_siembras.delete_at(aleatorio)
 					grupo_jugador.save					
 				end
 				i+=1
@@ -180,9 +190,610 @@ class Categorium < ApplicationRecord
 		end
 	end
 
+	def crear_cuadro_jugador(etapa,numero_cuadro,numero,siembra, categorium, numero_siembra)
+		cuadro_jugador=CuadroJugador.new
+		cuadro_jugador.cuadro=categorium.cuadros.where(etapa: etapa).where(numero: numero_cuadro).first
+		cuadro_jugador.jugador=siembra
+		cuadro_jugador.numero=numero
+		cuadro_jugador.numero_siembra=numero_siembra
+		cuadro_jugador.save
+	end
+
+	def insertar_siembra_64(siembra,numero_siembra,categorium)
+		case numero_siembra
+		when 1
+			crear_cuadro_jugador("32vos de final",1,1,siembra,categorium,numero_siembra)
+		when 2
+			crear_cuadro_jugador("32vos de final",32,2,siembra,categorium,numero_siembra)
+		when 3
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",9,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",24,2,siembra,categorium,numero_siembra)
+			end
+		when 4
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 9).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("32vos de final",9,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",24,2,siembra,categorium,numero_siembra)
+			end
+		when 5
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",16,2,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",17,1,siembra,categorium,numero_siembra)
+			end
+		when 6
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 16).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("32vos de final",16,2,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",17,1,siembra,categorium,numero_siembra)
+			end
+		when 7
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",5,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",28,2,siembra,categorium,numero_siembra)
+			end
+		when 8
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 5).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("32vos de final",5,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",28,2,siembra,categorium,numero_siembra)
+			end	
+		when 9
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",13,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",20,2,siembra,categorium,numero_siembra)
+			end
+		when 10
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 13).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("32vos de final",13,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",20,2,siembra,categorium,numero_siembra)
+			end	
+		when 11
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",3,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",30,2,siembra,categorium,numero_siembra)
+			end
+		when 12
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 3).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("32vos de final",3,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",30,2,siembra,categorium,numero_siembra)
+			end
+		when 13
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",7,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",26,2,siembra,categorium,numero_siembra)
+			end	
+		when 14
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 7).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("32vos de final",7,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",26,2,siembra,categorium,numero_siembra)
+			end
+		when 15
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",11,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",22,2,siembra, categorium, numero_siembra)
+			end	
+		when 16
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 11).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("32vos de final",11,1,siembra,categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("32vos de final",22,2,siembra,categorium,numero_siembra)
+			end		
+		end
+	end
+
+	def insertar_siembra_32(siembra,numero_siembra,categorium)
+		case numero_siembra
+		when 1
+			crear_cuadro_jugador("16vos de final",1,1,siembra, categorium, numero_siembra)
+		when 2
+			crear_cuadro_jugador("16vos de final",16,2,siembra, categorium, numero_siembra)
+		when 3
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",5,1,siembra, categorium, numero_siembra)
+			else
+				crear_cuadro_jugador("16vos de final",12,2,siembra, categorium, numero_siembra)
+			end
+		when 4
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 5).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("16vos de final",5,1,siembra, categorium, numero_siembra)
+			else
+				crear_cuadro_jugador("16vos de final",12,2,siembra, categorium, numero_siembra)
+			end
+		when 5
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",8,2,siembra, categorium, numero_siembra)
+			else
+				crear_cuadro_jugador("16vos de final",9,1,siembra, categorium, numero_siembra)
+			end
+		when 6
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 8).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("16vos de final",8,2,siembra, categorium, numero_siembra)
+			else
+				crear_cuadro_jugador("16vos de final",9,1,siembra, categorium, numero_siembra)
+			end
+		when 7
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",3,1,siembra, categorium, numero_siembra)
+			else
+				crear_cuadro_jugador("16vos de final",14,2,siembra, categorium, numero_siembra)
+			end
+		when 8
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 3).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("16vos de final",3,1,siembra, categorium, numero_siembra)
+			else
+				crear_cuadro_jugador("16vos de final",14,2,siembra, categorium, numero_siembra)
+			end
+		end
+	end	
+
+	def insertar_siembra_16(siembra,numero_siembra,categorium)
+		case numero_siembra
+		when 1
+			crear_cuadro_jugador("8vos de final",1,1,siembra, categorium,numero_siembra)
+		when 2
+			crear_cuadro_jugador("8vos de final",8,2,siembra, categorium,numero_siembra)
+		when 3
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("8vos de final",3,1,siembra, categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("8vos de final",6,2,siembra, categorium,numero_siembra)
+			end
+		when 4
+			if categorium.cuadros.where(etapa: "8vos de final").where(numero: 3).first.cuadro_jugadors.empty?
+				crear_cuadro_jugador("8vos de final",3,1,siembra, categorium,numero_siembra)
+			else
+				crear_cuadro_jugador("8vos de final",6,2,siembra, categorium,numero_siembra)
+			end
+		end
+	end
+
+	def insertar_siembra_8(siembra,numero_siembra,categorium)
+		case numero_siembra
+		when 1
+			crear_cuadro_jugador("4tos de final",1,1,siembra, categorium,numero_siembra)
+		when 2
+			crear_cuadro_jugador("4tos de final",4,2,siembra, categorium,numero_siembra)
+		end
+	end
+	def insertar_siembra_4(siembra,numero_siembra,categorium)
+		case numero_siembra
+		when 1
+			cuadro_jugador=CuadroJugador.new
+			cuadro_jugador.cuadro=categorium.cuadros.where(etapa: "Semifinal").where(numero: 1).first
+			cuadro_jugador.jugador=siembra
+			cuadro_jugador.numero=1
+			cuadro_jugador.numero_siembra=numero_siembra
+			cuadro_jugador.save
+		end
+	end
+
+	def insertar_bye_4(bye,numero_bye,categorium)
+		case numero_bye
+			when 1
+				crear_cuadro_jugador("Semifinal",1,2,bye, categorium,numero_siembra)
+			end	
+	end
+
+	def insertar_bye_8(bye,numero_bye,categorium)
+		case numero_bye
+			when 1
+				crear_cuadro_jugador("4tos de final",1,2,bye, categorium,numero_siembra)
+			when 2
+				crear_cuadro_jugador("4tos de final",4,1,bye, categorium,numero_siembra)
+			end	
+	end
+
+	def insertar_bye_16(bye,numero_bye,categorium)
+		case numero_bye
+		when 1
+			crear_cuadro_jugador("8vos de final",1,2,bye, categorium,nil)
+		when 2
+			crear_cuadro_jugador("8vos de final",8,1,bye, categorium,nil)
+		when 3
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("8vos de final",3,2,bye, categorium,nil)
+			else
+				crear_cuadro_jugador("8vos de final",6,1,bye, categorium,nil)
+			end
+		when 4
+			if categorium.cuadros.where(etapa: "8vos de final").where(numero: 3).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("8vos de final",3,2,bye, categorium,nil)
+			else
+				crear_cuadro_jugador("8vos de final",6,1,bye, categorium,nil)
+			end
+		when 5
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("8vos de final",4,1,bye, categorium,nil)
+			else
+				crear_cuadro_jugador("8vos de final",5,2,bye, categorium,nil)
+			end
+		when 6
+			if categorium.cuadros.where(etapa: "8vos de final").where(numero: 3).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("8vos de final",4,1,bye, categorium,nil)
+			else
+				crear_cuadro_jugador("8vos de final",5,2,bye, categorium,nil)
+			end
+		when 7
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("8vos de final",2,2,bye, categorium,nil)
+			else
+				crear_cuadro_jugador("8vos de final",7,1,bye, categorium,nil)
+			end
+		end
+	end
+
+	def insertar_bye_32(bye,numero_bye,categorium)
+		case numero_bye
+		when 1
+			crear_cuadro_jugador("16vos de final",1,2,bye, categorium, nil)
+		when 2
+			crear_cuadro_jugador("16vos de final",16,1,bye, categorium, nil)
+		when 3
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",5,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",12,1,bye, categorium, nil)
+			end
+		when 4
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 5).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("16vos de final",5,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",12,1,bye, categorium, nil)
+			end
+		when 5
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",8,1,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",9,2,bye, categorium, nil)
+			end
+		when 6
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 8).first.cuadro_jugadors.where(numero: 1).empty?
+				crear_cuadro_jugador("16vos de final",8,1,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",9,2,bye, categorium, nil)
+			end
+		when 7
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",3,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",14,1,bye, categorium, nil)
+			end
+		when 8
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 3).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("16vos de final",3,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",14,1,bye, categorium, nil)
+			end
+		when 9
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",7,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",10,1,bye, categorium, nil)
+			end
+		when 10
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 7).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("16vos de final",7,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",10,1,bye, categorium, nil)
+			end
+		when 11
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",2,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",15,1,bye, categorium, nil)
+			end
+		when 12
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 2).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("16vos de final",2,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",15,1,bye, categorium, nil)
+			end
+		when 13
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",4,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",13,1,bye, categorium, nil)
+			end
+		when 14
+			if categorium.cuadros.where(etapa: "16vos de final").where(numero: 4).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("16vos de final",4,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",13,1,bye, categorium, nil)
+			end
+		when 15
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("16vos de final",6,2,bye, categorium, nil)
+			else
+				crear_cuadro_jugador("16vos de final",11,1,bye, categorium, nil)
+			end
+		end
+	end	
+
+	def insertar_bye_64(bye,numero_bye,categorium)
+		case numero_bye
+		when 1
+			crear_cuadro_jugador("32vos de final",1,2,bye,categorium,nil)
+		when 2
+			crear_cuadro_jugador("32vos de final",32,1,bye,categorium,nil)
+		when 3
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",9,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",24,1,bye,categorium,nil)
+			end
+		when 4
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 9).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",9,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",24,1,bye,categorium,nil)
+			end
+		when 5
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",16,1,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",17,2,bye,categorium,nil)
+			end
+		when 6
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 16).first.cuadro_jugadors.where(numero: 1).empty?
+				crear_cuadro_jugador("32vos de final",16,1,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",17,2,bye,categorium,nil)
+			end
+		when 7
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",5,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",28,1,bye,categorium,nil)
+			end
+		when 8
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 5).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",5,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",28,1,bye,categorium,nil)
+			end	
+		when 9
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",13,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",20,1,bye,categorium,nil)
+			end
+		when 10
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 13).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",13,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",20,1,bye,categorium,nil)
+			end	
+		when 11
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",3,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",30,1,bye,categorium,nil)
+			end
+		when 12
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 3).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",3,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",30,1,bye,categorium,nil)
+			end
+		when 13
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",7,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",26,1,bye,categorium,nil)
+			end	
+		when 14
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 7).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",7,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",26,1,bye,categorium,nil)
+			end
+		when 15
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",11,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",22,1,bye, categorium, nil)
+			end	
+		when 16
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 11).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",11,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",22,1,bye,categorium,nil)
+			end
+		when 17
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",15,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",18,1,bye, categorium, nil)
+			end	
+		when 18
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 15).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",15,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",18,1,bye,categorium,nil)
+			end	
+		when 19
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",2,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",31,1,bye, categorium, nil)
+			end	
+		when 20
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 2).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",2,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",31,1,bye,categorium,nil)
+			end
+		when 21
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",4,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",29,1,bye, categorium, nil)
+			end	
+		when 22
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 4).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",4,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",29,1,bye,categorium,nil)
+			end	
+		when 23
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",6,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",27,1,bye, categorium, nil)
+			end	
+		when 24
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 6).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",6,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",27,1,bye,categorium,nil)
+			end	
+		when 25
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",8,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",25,1,bye, categorium, nil)
+			end
+		when 26
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 8).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",8,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",25,1,bye,categorium,nil)
+			end	
+		when 27
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",10,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",23,1,bye, categorium, nil)
+			end	
+		when 28
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 10).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",10,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",23,1,bye,categorium,nil)
+			end	
+		when 29
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",12,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",21,1,bye, categorium, nil)
+			end	
+		when 30
+			if categorium.cuadros.where(etapa: "32vos de final").where(numero: 12).first.cuadro_jugadors.where(numero: 2).empty?
+				crear_cuadro_jugador("32vos de final",12,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",21,1,bye,categorium,nil)
+			end	
+		when 31
+			cuadrante= rand(1..2)
+			if cuadrante==1
+				crear_cuadro_jugador("32vos de final",14,2,bye,categorium,nil)
+			else
+				crear_cuadro_jugador("32vos de final",19,1,bye, categorium, nil)
+			end					
+		end
+	end
+	def insertar_siembra(siembra,numero_siembra,numero_jugadores,categorium)
+		case numero_jugadores
+		when 4
+			insertar_siembra_4(siembra,numero_siembra,categorium)
+		when 8
+			insertar_siembra_8(siembra,numero_siembra,categorium)
+		when 16
+			insertar_siembra_16(siembra,numero_siembra,categorium)
+		when 32
+			insertar_siembra_32(siembra,numero_siembra,categorium)
+		when 64
+			insertar_siembra_64(siembra,numero_siembra,categorium)
+		end	
+	end
+
+	def insertar_bye(bye, numero_bye, numero_jugadores, categorium)
+		case numero_jugadores
+		when 4
+			insertar_bye_4(bye,numero_bye,categorium)
+		when 8
+			insertar_bye_8(bye,numero_bye, categorium)
+		when 16
+			insertar_bye_16(bye,numero_bye, categorium)
+		when 32
+			insertar_bye_32(bye,numero_bye, categorium)
+		when 64
+			insertar_bye_64(bye,numero_bye, categorium)
+		end	
+	end
+
 	def sortear_categoria
+		jugadores=Jugador.where(categorium_id: self.id).order(ranking: :asc)
+		if jugadores.length%4 == 0
+			numero_siembras=jugadores.length/4
+		else
+			numero_siembras=jugadores.length/4+1
+		end
+		siembras= jugadores.first(numero_siembras)
+		siembras= siembras.to_a
+		i=1
+		no_siembras=jugadores.last(jugadores.length-numero_siembras)
 		if self.tipo=="cuadroAvance"
-			sortear_cuadroAvance(self.id)
+			siembras.each do |siembra|
+	  			insertar_siembra(siembra,i,self.numero_jugadores,self)
+	  			i+=1
+			end
+		end
+		numero_byes= self.numero_jugadores-jugadores.length
+		if self.tipo=="cuadroAvance"
+			for i in 1..numero_byes do
+			  insertar_bye(Jugador.where(nombre: "BYE").first,i, self.numero_jugadores,self)
+			end
+		end
+		
+		if self.tipo=="cuadroAvance"
+			sortear_cuadroAvance(self.id,no_siembras.to_a)
 		elsif self.tipo=="roundRobin"
 			sortear_roundRobin(self.id)
 		end
