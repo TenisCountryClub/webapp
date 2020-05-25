@@ -10,6 +10,7 @@
       <th>Nombre</th>
       <th>Fecha de inicio</th>
       <th>Fecha de fin</th>
+      <th>Número de Canchas</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
         <td><%= torneo.nombre %></td>
         <td><%= torneo.fecha_inicio %></td>
         <td><%= torneo.fecha_fin %></td>
+        <td><%= torneo.numero_canchas %></td>
         <td><%= link_to 'Mostrar', torneo, class: "btn btn-info" %></td>
         <td><%= link_to 'Editar', edit_torneo_path(torneo), class: "btn btn-warning" %></td>
         <td><%= link_to 'Destruir', torneo, method: :delete, data: { confirm: '¿Está seguro?' }, class: "btn btn-danger" %></td>

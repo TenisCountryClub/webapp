@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  jugador_uno: one
+  jugador_dos: one
+  hora_inicio: 2020-05-19 16:25:35
+  hora_fin: 2020-05-19 16:25:35
+  grupo: one
+  cuadro: one
+
+two:
+  jugador_uno: two
+  jugador_dos: two
+  hora_inicio: 2020-05-19 16:25:35
+  hora_fin: 2020-05-19 16:25:35
+  grupo: two
+  cuadro: two

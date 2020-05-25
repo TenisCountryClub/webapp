@@ -1,12 +1,23 @@
 class CategoriaController < ApplicationController
   before_action :get_torneo
-  before_action :set_categorium, only: [:show, :edit, :update, :destroy, :sortear]
+  before_action :set_categorium, only: [:show, :edit, :update, :destroy, :sortear,:generar]
   
 
   # GET /categoria
   # GET /categoria.json
   def index
     @categoria = @torneo.categoria
+  end
+
+  def generar
+    if @categorium.tipo=="cuadroAvance"
+      @categorium.generar_partidos_cuadro_avance
+      redirect_to partido_cuadros_path
+    elsif @categorium.tipo=="roundRobin"
+      @categorium.generar_partidos_round_robin
+      redirect_to partido_grupos_path
+    end
+   
   end
 
   def sortear

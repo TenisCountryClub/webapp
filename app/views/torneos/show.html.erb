@@ -19,6 +19,10 @@
   <strong>Fecha fin:</strong>
   <%= @torneo.fecha_fin %>
 </p>
+<p>
+  <strong>Número de canchas:</strong>
+  <%= @torneo.numero_canchas %>
+</p>
 <br>
 <%= link_to 'Editar', edit_torneo_path(@torneo), class: "btn btn-secondary" %> |
 <%= link_to 'Atrás', torneos_path, class: "btn btn-secondary" %>

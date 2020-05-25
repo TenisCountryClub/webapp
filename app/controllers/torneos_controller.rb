@@ -69,6 +69,6 @@ class TorneosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def torneo_params
-      params.require(:torneo).permit(:nombre, :fecha_inicio, :fecha_fin, :hoja_calculo)
+      params.require(:torneo).permit(:nombre, :fecha_inicio, :fecha_fin, :hoja_calculo,:numero_canchas)
     end
 end

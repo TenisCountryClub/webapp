@@ -1,6 +1,7 @@
 class Grupo < ApplicationRecord
   belongs_to :categorium
   has_many :grupo_jugadors
+  has_many :partido_grupos
 
   validates :numero, :nombre, :categorium_id, presence: {message: "no puede estar vacío"}
   validates :numero,  numericality: {only_integer: true, message: "no puede ser otra cosa que un entero"}

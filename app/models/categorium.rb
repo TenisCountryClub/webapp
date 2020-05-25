@@ -3,6 +3,7 @@ class Categorium < ApplicationRecord
 	has_many :cuadros, dependent: :destroy
 	has_many :grupos, dependent: :destroy
 	has_many :jugadors, dependent: :destroy
+	has_many :partido_grupos, through: :grupos
   belongs_to :torneo
   before_save :set_numero_jugadores
   after_commit :crear_grupos_cuadros
@@ -44,12 +45,13 @@ class Categorium < ApplicationRecord
 	    	end
 	    end
 	end
-  def crear_grupos_cuadros
+  	def crear_grupos_cuadros
 		puts "hola"
 		if self.tipo=="cuadroAvance"
 			self.cuadros.destroy_all
 			self.grupos.destroy_all
 			aux=self.numero_jugadores/2
+			ronda=1
 			while aux>=1
 				i=1
 				puts "hola"
@@ -73,9 +75,11 @@ class Categorium < ApplicationRecord
 					end
 					cuadro.categorium=self
 					cuadro.set_numero(i)
+					cuadro.ronda= ronda
 					cuadro.save
 					i+=1
 				end
+				ronda+=1
 				aux/=2
 			end
 		elsif self.tipo=="roundRobin"
@@ -95,6 +99,11 @@ class Categorium < ApplicationRecord
 				puts "hola1"
 			end
 			aux= self.numero_grupos
+			if self.numero_jugadores_grupo==3 or self.numero_jugadores_grupo==4
+				ronda=4
+			elsif self.numero_jugadores_grupo==5
+				ronda=6
+			end
 			while aux>=1
 				i=1
 				puts aux.to_s
@@ -118,10 +127,12 @@ class Categorium < ApplicationRecord
 					end
 					cuadro.categorium=self
 					cuadro.set_numero(i)
+					cuadro.ronda= ronda
 					cuadro.save
 					i+=1
 					puts i.to_s
 				end
+				ronda+=1
 				aux/=2
 			end
 		end
@@ -796,6 +807,268 @@ class Categorium < ApplicationRecord
 			sortear_cuadroAvance(self.id,no_siembras.to_a)
 		elsif self.tipo=="roundRobin"
 			sortear_roundRobin(self.id)
+		end
+	end
+
+	#¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡GENERAR HORARIOS!!!!!!!!!!!!!!!!!!!!!!
+
+	def partidos
+		if self.tipo=="roundRobin"
+			return self.cuadros.partidos.or(self.grupos.partidos).order(numero: :asc)
+		else
+			return self.cuadros.partidos
+		end
+	end
+
+	def partidos_de_categoria(partidos)
+		res_partidos=Partido.none
+		partidos.each.do |partido|
+			if partido.grupo==nil
+				if partido.cuadro.categorium==self
+					res_partidos.or(Partido.where(id: partido.id))
+				end
+			else
+				if partido.grupo.categorium==self
+					res_partidos.or(Partido.where(id: partido.id))
+				end
+			end
+		end
+		return res_partidos.order(numero: :asc)
+	end
+	def primera_hora
+
+	end
+	def generar_ronda_round_robin(hora)
+		partidos= self.torneo.partidos
+		cancha=0
+		hora=0
+		numero=1
+		ronda=1
+		if partidos.empty?
+			cancha=1
+			hora=self.fecha_inicio.to_datetime.change({ hour: 8, min: 0, sec: 0 })
+		else
+			if partidos.last.numero_cancha < self.torneo.numero_canchas
+				cancha= partidos.last.numero_cancha+1
+				hora= partidos.last.hora_inicio + 90.minutes
+			elsif partidos.last.numero_cancha == self.numero_canchas
+				cancha=1
+				hora= partidos.last.hora_inicio + 90.minutes
+			end
+			ronda=self.partidos_de_categoria(partidos).last.ronda+1
+			numero=partidos.last.numero+1
+		end
+		if self.numero_jugadores_grupo==3 or self.numero_jugadores_grupo==4
+			numero_rondas_grupo=3
+		elsif self.numero_jugadores_grupo== 5
+			numero_rondas_grupo= 5
+		end	
+		if ronda<= numero_rondas_grupo
+			self.grupos.each do |grupo|
+				case self.numero_jugadores_grupo
+				when 3
+					case ronda
+					when 1
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=Jugador.where(nombre: "BYE").last
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					when 2
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=Jugador.where(nombre: "BYE").last
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					when 3
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.jugador_dos=Jugador.where(nombre: "BYE").last
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					end
+				when 4
+					case ronda
+					when 1
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					when 2
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					when 3
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					end
+				when 5
+					case ronda
+					when 1
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 5).last.jugador
+						partido.jugador_dos=Jugador.where(nombre: "BYE").last
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					when 2
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					when 3
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					end
+
+
+				end
+			end
 		end
 	end
 end

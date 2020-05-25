@@ -45,7 +45,10 @@
   <%= link_to 'Cuadros', torneo_categorium_cuadros_path(@torneo,@categorium), class: "btn btn-success" %>
 <% end %>
 
+
   <a href="/torneos/<%= @torneo.id %>/categoria/<%= @categorium.id %>/sortear" class="btn btn-danger">Sortear Categoría</a>
+
+  <a href="/torneos/<%= @torneo.id %>/categoria/<%= @categorium.id %>/generar" class="btn btn-danger">Generar Partidos</a>
 
 </div>
 </div>

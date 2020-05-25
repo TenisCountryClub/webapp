@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_141510) do
+ActiveRecord::Schema.define(version: 2020_05_19_202534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,12 +101,29 @@ ActiveRecord::Schema.define(version: 2020_04_28_141510) do
     t.index ["categorium_id"], name: "index_jugadors_on_categorium_id"
   end
 
+  create_table "partidos", force: :cascade do |t|
+    t.bigint "jugador_uno_id", null: false
+    t.bigint "jugador_dos_id", null: false
+    t.datetime "hora_inicio"
+    t.datetime "hora_fin"
+    t.integer "ronda"
+    t.bigint "grupo_id"
+    t.bigint "cuadro_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cuadro_id"], name: "index_partidos_on_cuadro_id"
+    t.index ["grupo_id"], name: "index_partidos_on_grupo_id"
+    t.index ["jugador_dos_id"], name: "index_partidos_on_jugador_dos_id"
+    t.index ["jugador_uno_id"], name: "index_partidos_on_jugador_uno_id"
+  end
+
   create_table "torneos", force: :cascade do |t|
     t.string "nombre"
     t.date "fecha_inicio"
     t.date "fecha_fin"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "numero_canchas"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -118,4 +135,6 @@ ActiveRecord::Schema.define(version: 2020_04_28_141510) do
   add_foreign_key "grupo_jugadors", "jugadors"
   add_foreign_key "grupos", "categoria"
   add_foreign_key "jugadors", "categoria"
+  add_foreign_key "partidos", "cuadros"
+  add_foreign_key "partidos", "grupos"
 end

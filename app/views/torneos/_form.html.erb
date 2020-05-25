@@ -30,6 +30,9 @@
   <div class="field">
     <%= form.file_field :hoja_calculo, placeholder: "Escoja Archivo" %>
   </div>
+  <div class="field">
+    <%= form.number_field :numero_canchas %>
+  </div>
   <br>
   <div class="actions">
     <%= form.submit "Aceptar", :class => "btn btn-primary" %>

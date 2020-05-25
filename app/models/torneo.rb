@@ -72,4 +72,12 @@ class Torneo < ApplicationRecord
 			errors.add(:fecha_fin, "debe ser después de inicio")
 		end
 	end
+
+	def partidos
+		partidos= Partido.none
+		self.categoria.each do |categorium|
+			partidos.or(categorium.partidos)
+		end
+		return partidos.order(numero: :asc)
+	end
 end

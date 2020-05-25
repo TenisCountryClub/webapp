@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Jugador uno:</strong>
+  <%= @partido.jugador_uno_id %>
+</p>
+
+<p>
+  <strong>Jugador dos:</strong>
+  <%= @partido.jugador_dos_id %>
+</p>
+
+<p>
+  <strong>Hora inicio:</strong>
+  <%= @partido.hora_inicio %>
+</p>
+
+<p>
+  <strong>Hora fin:</strong>
+  <%= @partido.hora_fin %>
+</p>
+
+<p>
+  <strong>Grupo:</strong>
+  <%= @partido.grupo_id %>
+</p>
+
+<p>
+  <strong>Cuadro:</strong>
+  <%= @partido.cuadro_id %>
+</p>
+
+<%= link_to 'Edit', edit_partido_path(@partido) %> |
+<%= link_to 'Back', partidos_path %>

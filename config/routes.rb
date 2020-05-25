@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
  
+  resources :partidos
   resources :grupo_jugadors
   resources :cuadro_jugadors
   root 'index#index'
@@ -12,10 +13,11 @@ Rails.application.routes.draw do
     end
   end
   
-  Rails.application.routes.default_url_options[:host] = "https://tenis-country-club.herokuapp.com"
+  Rails.application.routes.default_url_options[:host] = "localhost:3000"
 
 
   get '/torneos/:torneo_id/categoria/:id/sortear', to: 'categoria#sortear'
+  get '/torneos/:torneo_id/categoria/:id/generar', to: 'categoria#generar'
   resources :jugadors
     post '/asociar_jugador/:id', to: 'jugadors#asociar_jugador'
   	

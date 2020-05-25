@@ -1,0 +1,47 @@
+<%= form_with(model: partido, local: true) do |form| %>
+  <% if partido.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(partido.errors.count, "error") %> prohibited this partido from being saved:</h2>
+
+      <ul>
+        <% partido.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :jugador_uno_id %>
+    <%= form.text_field :jugador_uno_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :jugador_dos_id %>
+    <%= form.text_field :jugador_dos_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hora_inicio %>
+    <%= form.datetime_select :hora_inicio %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hora_fin %>
+    <%= form.datetime_select :hora_fin %>
+  </div>
+
+  <div class="field">
+    <%= form.label :grupo_id %>
+    <%= form.text_field :grupo_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cuadro_id %>
+    <%= form.text_field :cuadro_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
