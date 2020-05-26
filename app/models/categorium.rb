@@ -838,6 +838,18 @@ class Categorium < ApplicationRecord
 	def primera_hora
 
 	end
+
+	def terminar_canchas(cancha,hora,numero_canchas,numero)
+		if cancha>self.torneo.numero_canchas
+			cancha=1
+			hora= hora+90.minutes
+			if numero % (self.torneo.numero_canchas*10)==0
+			hora= hora+1.day
+			hora=hora.change({ hour: 8, min: 0, sec: 0 })	
+		end
+		return{:cancha => cancha, :hora => hora}
+	end
+
 	def generar_ronda_round_robin(hora)
 		partidos= self.torneo.partidos
 		cancha=0
@@ -865,19 +877,36 @@ class Categorium < ApplicationRecord
 		end	
 		if ronda<= numero_rondas_grupo
 			self.grupos.each do |grupo|
+				if cancha>self.torneo.numero_canchas
+					cancha=1
+					hora= hora+90.minutes
+				end
+				if numero % (self.torneo.numero_canchas*10)==0
+					cancha=1
+					hora= hora+90.minutes
+					hora.change({ hour: 0, min: 0, sec: 0 })
+				end
 				case self.numero_jugadores_grupo
 				when 3
 					case ronda
 					when 1
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
 						partido.jugador_dos=Jugador.where(nombre: "BYE").last
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
@@ -885,19 +914,29 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
 					when 2
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
-						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 3).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
@@ -905,19 +944,29 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
 					when 3
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
-						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 2).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 3).last.jugador
@@ -925,6 +974,7 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
@@ -932,15 +982,24 @@ class Categorium < ApplicationRecord
 				when 4
 					case ronda
 					when 1
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
 						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
@@ -948,19 +1007,29 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
 					when 2
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
-						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 3).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
@@ -968,19 +1037,29 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
 					when 3
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
-						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 2).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 3).last.jugador
@@ -988,6 +1067,7 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
@@ -995,15 +1075,24 @@ class Categorium < ApplicationRecord
 				when 5
 					case ronda
 					when 1
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
 						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
@@ -1011,9 +1100,14 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 5).last.jugador
@@ -1021,39 +1115,118 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
 					when 2
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
-						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
-						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 1).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
 
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
-						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
-						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 5).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=Jugador.where(nombre: "BYE").last
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
 					when 3
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
 						partido=Partido.new
-						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
-						partido.jugador_dos=Jugador.grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 5).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 3).last.jugador
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.cancha= cancha
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.jugador_dos=Jugador.where(nombre: "BYE").last
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.cancha= cancha
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					when 4
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 5).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.cancha= cancha
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
 
 						partido=Partido.new
 						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 3).last.jugador
@@ -1061,13 +1234,91 @@ class Categorium < ApplicationRecord
 						partido.hora_inicio=hora
 						partido.ronda= ronda
 						partido.numero= numero
+						partido.cancha= cancha
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.jugador_dos=Jugador.where(nombre: "BYE").last
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.cancha= cancha
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+					when 5
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 4).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 2).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.cancha= cancha
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 5).last.jugador
+						partido.jugador_dos=grupo.grupo_jugadors.where(numero: 1).last.jugador
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.cancha= cancha
+						partido.grupo= grupo
+						partido.save
+						numero+=1
+
+						hash1=self.terminar_canchas(cancha,hora,self.torneo.numero_canchas,numero)
+						hora=hash1[:hora]
+						cancha=hash1[:cancha]
+						
+						partido=Partido.new
+						partido.jugador_uno=grupo.grupo_jugadors.where(numero: 3).last.jugador
+						partido.jugador_dos=Jugador.where(nombre: "BYE").last
+						partido.hora_inicio=hora
+						partido.ronda= ronda
+						partido.numero= numero
+						partido.cancha= cancha
 						partido.grupo= grupo
 						partido.save
 						numero+=1
 					end
-
-
 				end
+			end
+		else
+			self.cuadros.where(ronda: ronda).each.do |cuadro|
+				if cancha>self.torneo.numero_canchas
+					cancha=1
+					hora= hora+90.minutes
+				end
+				if numero % (self.torneo.numero_canchas*10)==0
+					cancha=1
+					hora= hora+90.minutes
+					hora.change({ hour: 8, min: 0, sec: 0 })
+				end
+				partido=Partido.new
+				partido.hora_inicio=hora
+				partido.ronda= ronda
+				partido.numero= numero
+				partido.grupo= grupo
+				partido.save
+				numero+=1
 			end
 		end
 	end
