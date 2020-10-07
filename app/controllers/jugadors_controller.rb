@@ -1,14 +1,16 @@
 class JugadorsController < ApplicationController
-  skip_before_action :verify_authenticity_token, except: [:create, :update, :destroy]
+  skip_before_action :verify_authenticity_token#, except: [:create, :update, :destroy]
 
-  before_action :set_jugador, only: [:show, :edit, :update, :destroy, :asociar_jugador]
+  before_action :set_jugador, only: [:show, :edit, :update, :destroy]
 
   def asociar_jugador
-    @jugador.categorium_id=jugador_categoria_params[:categorium_id]
-    puts "CATID"+jugador_categoria_params.to_s
-    puts "CATEGORIUM"+@jugador.categorium_id.to_s
+    puts params.to_s+" Hola"
+    @jugador= Jugador.find(params[:jugador].to_i)
+    @jugador.categorium_id=params[:categoria]
     if @jugador.save
-    redirect_to jugadors_url
+      respond_to do |format|
+        format.json {render :show, location: @jugador}
+      end
     end    
   end
 

@@ -28,23 +28,21 @@
         <td><%= jugador.club_asociacion %></td>
         <td><%= jugador.fecha_inscripcion %></td>
         <td><%= jugador.status %></td>
-        <td>
+        <td id="<%= jugador.id.to_s+"categoria"%>">
           <% if jugador.categorium %>
-           <%=jugador.categorium.torneo.nombre+" "+jugador.categorium.nombre %> 
+           <%=jugador.categorium.torneo.nombre+" - "+jugador.categorium.nombre %> 
           <% end %>
           
             
           </td>
         <td> 
-          <form action="/asociar_jugador/<%= jugador.id %>" method="post">
-          <select name="jugador[categorium_id]" class="form-control">
+          <select name="jugador[categorium_id]" class="form-control" id="<%= jugador.id.to_s+'select' %>">
           <% @categorias.each do |categorium|%>
             <option value="<%=categorium["id"]%>"><%=categorium["Nombre"]%></option>
           <% end %>
           </select>
         </td>
-        <td><input class="btn btn-light" type="submit"  value="Asociar Jugador a Torneo"></td>
-        </form>
+        <td><input class="btn btn-light asociar_jugador" type="submit"  value="Asociar Jugador a Torneo" id="<%= jugador.id %>"></td>
         <td><%= link_to 'Mostrar', jugador, class: "btn btn-info" %></td>
         <td><%= link_to 'Editar', edit_jugador_path(jugador), class: "btn btn-warning" %></td>
         <td><%= link_to 'Destruir', jugador, method: :delete, data: { confirm: '¿Está seguro?' }, class: "btn btn-danger" %></td>
@@ -63,4 +61,24 @@
   if ($('#alert').is(':empty')) {
     $('#notice').css('display','none');
   }
+  $('.asociar_jugador').click(function(){
+    var id=$(this).attr('id')
+    //$("#"+id+"select").css("background-color", "red");
+    var jugador_categoria={"jugador": parseInt(id),"categoria": parseInt($("#"+id+"select").val())}
+    var cadena=JSON.stringify(jugador_categoria);
+    $.ajax({
+        url: '/asociar_jugador.json',
+        data: jugador_categoria,
+        type: 'POST',
+        cache: false,
+        success: function(data) {
+          cadena= JSON.stringify(data);
+          //alert(data.categoria);
+          $('#'+data.jugador.toString()+'categoria').html(data.categoria)
+        },
+        error: function() {
+          alert("¡No se pudo efectuar operación!")
+        }
+    });
+  });
 </script>

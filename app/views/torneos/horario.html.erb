@@ -1,0 +1,128 @@
+
+
+
+<h1>Horario de <%= @torneo.nombre %></h1>
+
+<table class="table" id="canchas">
+	<thead>
+		<tr>
+			<th> Hora </th>
+			<% for i in 1..@torneo.numero_canchas %>
+				<th>Cancha <%= i %></th>
+			<% end %>
+		</tr>
+	</thead>
+	<tbody id="partidos">
+		<% @partidos.each do |partido| %>
+			<% if partido.numero_cancha == 1 %>
+				<tr>
+					<th scope="row">
+						<%= partido.hora_inicio %>
+					</th>
+			<% end %>
+				<td style="text-align: center; padding: 0;" class="ronda-<%= partido.ronda%>" categoria="<% if partido.grupo %><%= partido.grupo.categorium.nombre %><% else %><%= partido.cuadro.categorium.nombre %><% end %>" ronda="<%= partido.ronda %>">
+					<table class="table table-bordered ronda-<%= partido.ronda%>" categoria="<% if partido.grupo %><%= partido.grupo.categorium.nombre %><% else %><%= partido.cuadro.categorium.nombre %><% end %>" ronda="<%= partido.ronda %>" style= "margin: 0;">
+						<tr>
+							<th>
+								<% if partido.grupo %>
+									<%= partido.grupo.categorium.nombre %>
+								<% else %>
+									<%= partido.cuadro.categorium.nombre %>
+								<% end %>
+								- Ronda:<%= partido.ronda %>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<% if partido.jugador_uno %>
+									<%= partido.jugador_uno.nombre %>
+								<% end %>			
+							</td>
+						</tr>
+						<tr>
+							<td> Vs.</td>
+						</tr>
+						<tr>
+							<td>
+								<% if partido.jugador_uno %>
+									<%= partido.jugador_dos.nombre %>
+								<% end %>
+							</td>
+						</tr>
+					</table>
+				</td>
+			<% if partido.numero_cancha == @torneo.numero_canchas %>
+				</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+
+<div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="padding: 12px;">
+      <div class="modal-header">
+      		<h4 id="titulo" class="modal-title"></h4>
+      		<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="row">
+      	<div class="col-md-6">
+      		<label for="categoria">¿Qué categoria desea añadir?</label>
+      		<select class="custom-select" id="categoria">
+      			<% @torneo.categoria.each do |categoria| %>
+						  <option value="<%= categoria.id %>"><%= categoria.nombre %></option>
+					  <% end %>
+					</select>
+					<label for="ubicacion">¿Dónde quiere insertarla?</label>
+					<select class="custom-select">
+						<option value="1">Antes</option>
+						<option value="2">Después</option>
+					</select>
+					<button class="btn btn-primary" style="margin-top: 8px;">Añadir Partidos</button>
+      	</div>
+      	<div class="col-md-6">
+      		<label>Eliminar categoría seleccionada</label><br>
+      		<button class="btn btn-danger">Eliminar</button>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  if ($('#alert').is(':empty')) {
+    $('#notice').css('display','none');
+  }
+
+	var tbody = $("#partidos");
+
+	if (tbody.children().length == 0) {
+	    $("#nueva-ronda").css("display","block");
+	}
+
+  $('td').hover(function(){
+  	clase= $(this).attr('class').split(' ').pop();
+  	$('.'+clase).css({"background-color":"#B8DAFF"})
+  }, function(){
+  	clase= $(this).attr('class').split(' ').pop();
+  	$('.'+clase).css({"background-color":"white"})
+  });
+
+  $('td').click(function(){
+  	clase= $(this).attr('class').split(' ').pop();
+  	titulo= $(this).attr('categoria')+" - Ronda: "+ $(this).attr('ronda')
+  	$('.'+clase).css("background-color","#DADADA");
+  	//alert(titulo);
+  	$('#myModal').modal("show");
+  	$('#titulo').empty();
+  	$('#titulo').html(titulo);
+  });
+</script>
+
+

@@ -1,6 +1,26 @@
 class TorneosController < ApplicationController
-  before_action :set_torneo, only: [:show, :edit, :update, :destroy]
+  before_action :set_torneo, only: [:show, :edit, :update, :destroy, :horario]
 
+  
+  def horario
+    @partidos = Partido.none
+    @torneo.categoria.each do |categorium|
+      if categorium.tipo="roundRobin"
+        categorium.grupos.each do |grupo|
+          @partidos = @partidos.or(grupo.partidos)
+        end
+        categorium.cuadros.each do |cuadro|
+          @partidos= @partidos.or(cuadro.partidos)
+        end
+      else
+        categorium.cuadros.each do |cuadro|
+          @partidos= @partidos.or(cuadro.partidos)
+        end
+      end
+    end
+    @partidos= @partidos.order(numero: :asc)
+    
+  end
   # GET /torneos
   # GET /torneos.json
   def index

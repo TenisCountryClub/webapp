@@ -1,0 +1,1 @@
+json.partidos @partidos, :numero, :jugador_uno, :jugador_dos, :numero_cancha, :hora_inicio, :hora_fin, :grupo, :cuadro, :ronda_torneo

@@ -11,13 +11,15 @@ class CategoriaController < ApplicationController
 
   def generar
     if @categorium.tipo=="cuadroAvance"
-      @categorium.generar_partidos_cuadro_avance
-      redirect_to partido_cuadros_path
+      @categorium.generar_ronda_cuadro_avance
     elsif @categorium.tipo=="roundRobin"
-      @categorium.generar_partidos_round_robin
-      redirect_to partido_grupos_path
+      @categorium.generar_ronda_round_robin
     end
-   
+    @ronda_torneo=@categorium.partidos_de_categoria(Partido.all).order(numero: :asc).last.ronda_torneo
+    @partidos=@categorium.partidos_de_categoria(Partido.all).where(ronda_torneo: @ronda_torneo).order(numero: :asc)
+    respond_to do |format|
+      format.json { render :horario, status: :created, location: '/torneo/'+@torneo.id.to_s+'/categoria/'+@categorium.id.to_s+'/generar.json' }
+    end
   end
 
   def sortear

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_202534) do
+ActiveRecord::Schema.define(version: 2020_09_27_202514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,15 @@ ActiveRecord::Schema.define(version: 2020_05_19_202534) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cancha_inhabilitadas", force: :cascade do |t|
+    t.integer "numero_cancha"
+    t.datetime "hora"
+    t.bigint "ronda_torneo_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ronda_torneo_id"], name: "index_cancha_inhabilitadas_on_ronda_torneo_id"
   end
 
   create_table "categoria", force: :cascade do |t|
@@ -65,6 +74,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_202534) do
     t.bigint "categorium_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "ronda"
     t.index ["categorium_id"], name: "index_cuadros_on_categorium_id"
   end
 
@@ -102,19 +112,31 @@ ActiveRecord::Schema.define(version: 2020_05_19_202534) do
   end
 
   create_table "partidos", force: :cascade do |t|
-    t.bigint "jugador_uno_id", null: false
-    t.bigint "jugador_dos_id", null: false
+    t.bigint "jugador_uno_id"
+    t.bigint "jugador_dos_id"
     t.datetime "hora_inicio"
     t.datetime "hora_fin"
     t.integer "ronda"
+    t.integer "numero_cancha"
     t.bigint "grupo_id"
     t.bigint "cuadro_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "numero"
+    t.bigint "ronda_torneo_id", null: false
     t.index ["cuadro_id"], name: "index_partidos_on_cuadro_id"
     t.index ["grupo_id"], name: "index_partidos_on_grupo_id"
     t.index ["jugador_dos_id"], name: "index_partidos_on_jugador_dos_id"
     t.index ["jugador_uno_id"], name: "index_partidos_on_jugador_uno_id"
+    t.index ["ronda_torneo_id"], name: "index_partidos_on_ronda_torneo_id"
+  end
+
+  create_table "ronda_torneos", force: :cascade do |t|
+    t.integer "numero"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "numero_canchas"
+    t.datetime "hora_inicio"
   end
 
   create_table "torneos", force: :cascade do |t|
@@ -127,6 +149,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_202534) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cancha_inhabilitadas", "ronda_torneos"
   add_foreign_key "categoria", "torneos"
   add_foreign_key "cuadro_jugadors", "cuadros"
   add_foreign_key "cuadro_jugadors", "jugadors"
@@ -137,4 +160,5 @@ ActiveRecord::Schema.define(version: 2020_05_19_202534) do
   add_foreign_key "jugadors", "categoria"
   add_foreign_key "partidos", "cuadros"
   add_foreign_key "partidos", "grupos"
+  add_foreign_key "partidos", "ronda_torneos"
 end

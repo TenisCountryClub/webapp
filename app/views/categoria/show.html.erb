@@ -45,10 +45,20 @@
   <%= link_to 'Cuadros', torneo_categorium_cuadros_path(@torneo,@categorium), class: "btn btn-success" %>
 <% end %>
 
+  <% if @categorium.cuadro_jugadors.empty? and @categorium.grupo_jugadors.empty? %>
+    <a href="/torneos/<%= @torneo.id %>/categoria/<%= @categorium.id %>/sortear" class="btn btn-danger">Sortear Categoría</a>
+  <% else %>
+    <%if @categorium.tipo=="cuadroAvance" %>
+      
+      <%= link_to "Resultado Sorteo", torneo_categorium_cuadro_jugadors_path(@torneo,@categorium), class: "btn btn-primary" %>
+    <%elsif @categorium.tipo=="roundRobin" %>
+      
+      <%= link_to "Resultado Sorteo", torneo_categorium_grupo_jugadors_path(@torneo,@categorium), class: "btn btn-primary" %>
+    <% end %>
 
-  <a href="/torneos/<%= @torneo.id %>/categoria/<%= @categorium.id %>/sortear" class="btn btn-danger">Sortear Categoría</a>
+  <% end %>
 
-  <a href="/torneos/<%= @torneo.id %>/categoria/<%= @categorium.id %>/generar" class="btn btn-danger">Generar Partidos</a>
+  <!--a href="/torneos/<%= @torneo.id %>/categoria/<%= @categorium.id %>/generar" class="btn btn-danger">Generar Partidos</a-->
 
 </div>
 </div>

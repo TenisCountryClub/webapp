@@ -1,1 +1,2 @@
-json.partial! "jugadors/jugador", jugador: @jugador
+json.jugador @jugador.id
+json.categoria @jugador.categorium.torneo.nombre+" - "+@jugador.categorium.nombre

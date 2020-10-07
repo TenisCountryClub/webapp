@@ -7,10 +7,12 @@
     <tr>
       <th>Jugador uno</th>
       <th>Jugador dos</th>
+      <th>Cancha</th>
       <th>Hora inicio</th>
       <th>Hora fin</th>
       <th>Grupo</th>
       <th>Cuadro</th>
+      <th>Ronda</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,10 +22,12 @@
       <tr>
         <td><%= partido.jugador_uno_id %></td>
         <td><%= partido.jugador_dos_id %></td>
+        <td><%= partido.numero_cancha %></td>
         <td><%= partido.hora_inicio %></td>
         <td><%= partido.hora_fin %></td>
         <td><%= partido.grupo_id %></td>
         <td><%= partido.cuadro_id %></td>
+        <td><%= partido.ronda %></td>
         <td><%= link_to 'Show', partido %></td>
         <td><%= link_to 'Edit', edit_partido_path(partido) %></td>
         <td><%= link_to 'Destroy', partido, method: :delete, data: { confirm: 'Are you sure?' } %></td>
