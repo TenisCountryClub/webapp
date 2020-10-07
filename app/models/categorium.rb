@@ -1187,13 +1187,16 @@ class Categorium < ApplicationRecord
 				ronda_torneo = ronda_torneo_adecuada(partido_previo)
 				partido_previo = Partido.new
 				partido_previo.setter(nil, nil,hora,ronda,cancha,nil,cuadro,numero,ronda_torneo)
+				contador+=1
 			end
 		end
+		return contador
 	end
 
 	def generar_ronda_cuadro_avance(partido_previo)
 		partidos = self.torneo.partidos
-		ronda = ronda_adecuada(self, partidos) 
+		ronda = ronda_adecuada(self, partidos)
+		contador = 0 
 		partidos_posteriores = partidos.where("numero > ?",numero_partido(partido_previo))
 		self.cuadros.where(ronda: ronda).order(numero: :asc).each do |cuadro|
 			cancha = numero_cancha_adecuada(partido_previo)
@@ -1202,6 +1205,8 @@ class Categorium < ApplicationRecord
 			ronda_torneo = ronda_torneo_adecuada(partido_previo,hora)
 			partido_previo = Partido.new
 			partido_previo.setter(nil, nil,hora,ronda,cancha,nil,cuadro,numero,ronda_torneo)
+			contador+=1
 		end
+		 return contador
 	end
 end
