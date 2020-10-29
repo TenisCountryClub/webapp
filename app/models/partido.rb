@@ -4,6 +4,7 @@ class Partido < ApplicationRecord
   belongs_to :grupo, optional: true
   belongs_to :cuadro, optional: true
   belongs_to :ronda_torneo
+  has_many :cancha_inhabilitadas, :through => :ronda_torneo
 
   def torneo
   	if self.grupo

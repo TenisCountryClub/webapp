@@ -11,12 +11,35 @@ class Categorium < ApplicationRecord
   after_commit :crear_grupos_cuadros
 
   	validates :nombre, presence: {message: "no puede estar vacío"}
-	validates :numero_grupos,:numero_jugadores_grupo, presence: {message: "no puede estar vacío"}, if: :es_roundRobin?
 	validates :numero_jugadores, presence: {message: "no puede estar vacío"}, if: :es_cuadroAvance?
 	validates :numero_jugadores, numericality: {only_integer: true, message: "no puede ser otra cosa que un entero"},if: :es_cuadroAvance?
-	validates :numero_grupos,:numero_jugadores_grupo,  numericality: {only_integer: true, message: "no puede ser otra cosa que un entero"}, if: :es_roundRobin?
 	validate :es_potencia_de_dos
 	validate :cuadra_grupos_cuadros
+
+	def self.cuantos_grupos_de_cuanto(numero)
+		#numero = self.numero_jugadores
+		arreglo = Array.new
+		tres = 0
+		cuatro = 0
+		cinco = 0
+		if numero==5
+			return  [{ tres: tres, cuatro: cuatro, cinco: 1}]
+		else
+			if numero % 4 ==0
+				arreglo.push( { tres: tres, cuatro: numero/4, cinco: 0})
+			else
+				while numero >= 0 do
+					numero -=3
+					tres +=1
+					if numero % 4 == 0
+						cuatro = numero / 4
+						arreglo.push({tres: tres,cuatro: cuatro, cinco: cinco})
+					end
+				end
+			end
+		end
+		return arreglo
+	end
 
 	def cuadra_grupos_cuadros
 		if numero_grupos
@@ -938,7 +961,7 @@ class Categorium < ApplicationRecord
 		partidos = self.torneo.partidos
 		ronda = ronda_adecuada(self, partidos) 
 		partidos_posteriores = partidos.where("numero > ?",numero_partido(partido_previo))
-		contador=0
+		array_partidos= Array.new
 		if ronda <= numero_max_rondas_fase_grupo(self)
 			self.grupos.each do |grupo|
 				case self.numero_jugadores_grupo
@@ -951,7 +974,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, Jugador.where(nombre: "BYE").last,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -959,7 +982,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 2).last.jugador, grupo.grupo_jugadors.where(numero: 3).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 					when 2
 
@@ -969,7 +992,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, grupo.grupo_jugadors.where(numero: 3).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -977,7 +1000,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 2).last.jugador, Jugador.where(nombre: "BYE").last,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					when 3
 
 						cancha = numero_cancha_adecuada(partido_previo)
@@ -986,7 +1009,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, grupo.grupo_jugadors.where(numero: 2).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -994,7 +1017,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 3).last.jugador, Jugador.where(nombre: "BYE").last,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					end
 				when 4
 					case ronda
@@ -1006,7 +1029,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, grupo.grupo_jugadors.where(numero: 4).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1014,7 +1037,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 2).last.jugador, grupo.grupo_jugadors.where(numero: 3).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					when 2
 
 						cancha = numero_cancha_adecuada(partido_previo)
@@ -1023,7 +1046,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, grupo.grupo_jugadors.where(numero: 3).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1031,7 +1054,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 2).last.jugador, grupo.grupo_jugadors.where(numero: 4).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					when 3
 
 						cancha = numero_cancha_adecuada(partido_previo)
@@ -1040,7 +1063,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, grupo.grupo_jugadors.where(numero: 2).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1048,7 +1071,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 3).last.jugador, grupo.grupo_jugadors.where(numero: 4).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					end
 				when 5
 					case ronda
@@ -1060,7 +1083,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, grupo.grupo_jugadors.where(numero: 4).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1068,7 +1091,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 2).last.jugador, grupo.grupo_jugadors.where(numero: 3).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1076,7 +1099,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 5).last.jugador, Jugador.where(nombre: "BYE").last,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					when 2
 
 						cancha = numero_cancha_adecuada(partido_previo)
@@ -1085,7 +1108,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 3).last.jugador, grupo.grupo_jugadors.where(numero: 1).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1093,7 +1116,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 4).last.jugador, grupo.grupo_jugadors.where(numero: 5).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1101,7 +1124,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 2).last.jugador, Jugador.where(nombre: "BYE").last,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					when 3
 
 						cancha = numero_cancha_adecuada(partido_previo)
@@ -1110,7 +1133,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 5).last.jugador, grupo.grupo_jugadors.where(numero: 3).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1118,7 +1141,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, grupo.grupo_jugadors.where(numero: 2).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1126,7 +1149,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 4).last.jugador, Jugador.where(nombre: "BYE").last,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					when 4
 
 						cancha = numero_cancha_adecuada(partido_previo)
@@ -1135,7 +1158,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 2).last.jugador, grupo.grupo_jugadors.where(numero: 5).last.jugador,hora,ronda,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1143,7 +1166,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 3).last.jugador, grupo.grupo_jugadors.where(numero: 4).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1151,7 +1174,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 1).last.jugador, Jugador.where(nombre: "BYE").last,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					when 5
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1159,7 +1182,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 4).last.jugador, grupo.grupo_jugadors.where(numero: 2).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1167,7 +1190,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 5).last.jugador, grupo.grupo_jugadors.where(numero: 1).last.jugador,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 
 						cancha = numero_cancha_adecuada(partido_previo)
 						hora = hora_inicio_adecuada(partido_previo)
@@ -1175,7 +1198,7 @@ class Categorium < ApplicationRecord
 						ronda_torneo = ronda_torneo_adecuada(partido_previo)
 						partido_previo = Partido.new
 						partido_previo.setter(grupo.grupo_jugadors.where(numero: 3).last.jugador, Jugador.where(nombre: "BYE").last,hora,ronda,cancha,grupo,nil,numero,ronda_torneo)
-						contador+=1
+						array_partidos.push(partido_previo)
 					end
 				end
 			end
@@ -1187,16 +1210,16 @@ class Categorium < ApplicationRecord
 				ronda_torneo = ronda_torneo_adecuada(partido_previo)
 				partido_previo = Partido.new
 				partido_previo.setter(nil, nil,hora,ronda,cancha,nil,cuadro,numero,ronda_torneo)
-				contador+=1
+				array_partidos.push(partido_previo)
 			end
 		end
-		return contador
+		return array_partidos
 	end
 
 	def generar_ronda_cuadro_avance(partido_previo)
 		partidos = self.torneo.partidos
 		ronda = ronda_adecuada(self, partidos)
-		contador = 0 
+		array_partidos = Array.new 
 		partidos_posteriores = partidos.where("numero > ?",numero_partido(partido_previo))
 		self.cuadros.where(ronda: ronda).order(numero: :asc).each do |cuadro|
 			cancha = numero_cancha_adecuada(partido_previo)
@@ -1205,8 +1228,8 @@ class Categorium < ApplicationRecord
 			ronda_torneo = ronda_torneo_adecuada(partido_previo,hora)
 			partido_previo = Partido.new
 			partido_previo.setter(nil, nil,hora,ronda,cancha,nil,cuadro,numero,ronda_torneo)
-			contador+=1
+			array_partidos.push(partido_previo)
 		end
-		 return contador
+		 return array_partidos
 	end
 end

@@ -201,7 +201,6 @@ class Torneo < ApplicationRecord
 		end
 		partido_aux=0
 		partidos.each_with_index do |part, index|
-			puts "hola"+part.to_s
 			if index == 0 and cancha_inhabilitada.ronda_torneo.hora_inicio + 90.minutes >= part.ronda_torneo.hora_inicio
 				return Partido.none
 			end
@@ -240,6 +239,7 @@ class Torneo < ApplicationRecord
 		end
 	end
 
+
 	def habilitar_cancha(cancha)
 		self.recorrer_partidos_izquierda(cancha)
 		cancha.destroy		
@@ -248,5 +248,16 @@ class Torneo < ApplicationRecord
 	def inhabilitar_cancha(ronda_torneo,cancha)
 		self.recorrer_partidos_derecha(ronda_torneo, cancha)
 		CanchaInhabilitada.crear(cancha,ronda_torneo.hora_inicio,ronda_torneo)
+	end
+
+	def generar_ronda(categorium,partido)
+		if partido != 0
+			partidos_posteriores=self.partidos.where("numero > ?",partido.numero)
+		else
+			partidos_posteriores=self.partidos.where("numero > ?",partido)
+		end
+		numero_partidos = categorium.generar_ronda
+
+
 	end
 end
